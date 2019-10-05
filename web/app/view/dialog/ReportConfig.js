@@ -66,6 +66,16 @@ Ext.define('Traccar.view.dialog.ReportConfig', {
         displayField: 'name',
         queryMode: 'local'
     }, {
+        fieldLabel: Strings.reportDestLat,
+        xtype: 'textfield',
+        reference: 'destLatField',
+        hidden: true,
+    }, {
+        fieldLabel: Strings.reportDestLon,
+        xtype: 'textfield',
+        reference: 'destLonField',
+        hidden: true,
+    }, {
         fieldLabel: Strings.reportShowMarkers,
         xtype: 'checkbox',
         reference: 'showMarkersField',

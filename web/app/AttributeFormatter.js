@@ -72,6 +72,10 @@ Ext.define('Traccar.AttributeFormatter', {
         return Ext.getStore('HoursUnits').formatValue(value, 'h', true);
     },
 
+    timeFormatter: function (value) {
+        return Ext.getStore('HoursUnits').formatValue(value, 'h', true);
+    },
+
     deviceIdFormatter: function (value) {
         var device, store;
         if (value !== 0) {
@@ -208,6 +212,8 @@ Ext.define('Traccar.AttributeFormatter', {
                 return this.distanceFormatter;
             case 'duration':
                 return this.durationFormatter;
+            case 'time':
+                return this.timeFormatter;
             case 'deviceId':
                 return this.deviceIdFormatter;
             case 'groupId':

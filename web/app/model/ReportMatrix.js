@@ -1,5 +1,6 @@
 /*
  * Copyright 2016 Anton Tananaev (anton@traccar.org)
+ * Copyright 2016 Andrey Kunitsyn (andrey@traccar.org)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -15,30 +16,22 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-Ext.define('Traccar.store.ReportTypes', {
-    extend: 'Ext.data.Store',
-    fields: ['key', 'name'],
+Ext.define('Traccar.model.ReportMatrix', {
+    extend: 'Ext.data.Model',
+    identifier: 'negative',
 
-    data: [{
-        key: 'route',
-        name: Strings.reportRoute
+    fields: [{
+        name: 'deviceId',
+        type: 'int'
     }, {
-        key: 'events',
-        name: Strings.reportEvents
+        name: 'deviceName',
+        type: 'string'
     }, {
-        key: 'trips',
-        name: Strings.reportTrips
+        name: 'distance',
+        type: 'float',
+        convert: Traccar.AttributeFormatter.getConverter('distance')
     }, {
-        key: 'stops',
-        name: Strings.reportStops
-    }, {
-        key: 'summary',
-        name: Strings.reportSummary
-    }, {
-        key: 'chart',
-        name: Strings.reportChart
-    }, {
-        key: 'matrix',
-        name: Strings.reportMatrix
+        name: 'time',
+        type: 'int'
     }]
 });

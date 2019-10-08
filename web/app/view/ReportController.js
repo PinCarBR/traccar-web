@@ -196,7 +196,9 @@ Ext.define('Traccar.view.ReportController', {
                         groupId: this.groupId,
                         type: this.eventType,
                         from: from.toISOString(),
-                        to: to.toISOString()
+                        to: to.toISOString(),
+                        destLat: this.destLatField,
+                        destLon: this.destLonField
                     }
                 });
             } else {

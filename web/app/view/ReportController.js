@@ -197,8 +197,8 @@ Ext.define('Traccar.view.ReportController', {
                         type: this.eventType,
                         from: from.toISOString(),
                         to: to.toISOString(),
-                        destLat: this.destLatField,
-                        destLon: this.destLonField
+                        latitude: this.destLatField,
+                        longitude: this.destLonField
                     }
                 });
             } else {

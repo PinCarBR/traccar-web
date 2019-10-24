@@ -106,10 +106,10 @@ Ext.define('Traccar.view.ReportController', {
         var dialog = Ext.create('Traccar.view.dialog.ReportConfig');
         dialog.lookupReference('eventTypeField').setHidden(this.lookupReference('reportTypeField').getValue() !== 'events');
         dialog.lookupReference('chartTypeField').setHidden(this.lookupReference('reportTypeField').getValue() !== 'chart');
-        dialog.lookupReference('destLatField').setHidden(this.lookupReference('reportTypeField').getValue() !== 'matrix');
-        dialog.lookupReference('destLonField').setHidden(this.lookupReference('reportTypeField').getValue() !== 'matrix');
-        dialog.lookupReference('showMarkersField').setHidden(this.lookupReference('reportTypeField').getValue() === 'matrix');
-        dialog.lookupReference('periodField').setHidden(this.lookupReference('reportTypeField').getValue() === 'matrix');
+        dialog.lookupReference('destLatField').setHidden(this.lookupReference('reportTypeField').getValue() !== 'time-distance');
+        dialog.lookupReference('destLonField').setHidden(this.lookupReference('reportTypeField').getValue() !== 'time-distance');
+        dialog.lookupReference('showMarkersField').setHidden(this.lookupReference('reportTypeField').getValue() === 'time-distance');
+        dialog.lookupReference('periodField').setHidden(this.lookupReference('reportTypeField').getValue() === 'time-distance');
         dialog.callingPanel = this;
         dialog.lookupReference('deviceField').setValue(this.deviceId);
         dialog.lookupReference('groupField').setValue(this.groupId);
@@ -155,8 +155,8 @@ Ext.define('Traccar.view.ReportController', {
         time = this.fromDate && this.fromTime && this.toDate && this.toTime;
         disabled = !reportType || !devices || !time || this.reportProgress;
         this.lookupReference('showButton').setDisabled(disabled);
-        this.lookupReference('exportButton').setDisabled(reportType === 'chart' || reportType === 'matrix' || disabled);
-        this.lookupReference('emailButton').setDisabled(reportType === 'chart' || reportType === 'matrix' || disabled);
+        this.lookupReference('exportButton').setDisabled(reportType === 'chart' || reportType === 'time-distance' || disabled);
+        this.lookupReference('emailButton').setDisabled(reportType === 'chart' || reportType === 'time-distance' || disabled);
     },
 
     onReportClick: function (button) {
@@ -450,8 +450,8 @@ Ext.define('Traccar.view.ReportController', {
             this.getView().getLayout().setActiveItem('grid');
         } else if (newValue === 'chart') {
             this.getView().getLayout().setActiveItem('chart');
-        } else if (newValue === 'matrix') {
-            this.getGrid().reconfigure('ReportMatrix', this.matrixColumns);
+        } else if (newValue === 'time-distance') {
+            this.getGrid().reconfigure('ReportTimeDistance', this.timeDistanceColumns);
             this.getView().getLayout().setActiveItem('grid');
         }
         
@@ -582,7 +582,7 @@ Ext.define('Traccar.view.ReportController', {
         renderer: Traccar.AttributeFormatter.getFormatter('spentFuel')
     }],
 
-    matrixColumns: [{
+    timeDistanceColumns: [{
         text: Strings.reportDeviceName,
         dataIndex: 'deviceId',
         renderer: Traccar.AttributeFormatter.getFormatter('deviceId')

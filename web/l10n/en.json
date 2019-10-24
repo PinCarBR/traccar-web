@@ -369,7 +369,7 @@
     "reportTrips": "Trips",
     "reportStops": "Stops",
     "reportSummary": "Summary",
-    "reportMatrix": "Time and Distance",
+    "reportTimeDistance": "Time and Distance",
     "reportChart": "Chart",
     "reportConfigure": "Configure",
     "reportEventTypes": "Event Types",

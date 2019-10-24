@@ -16,22 +16,21 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-Ext.define('Traccar.model.ReportMatrix', {
-    extend: 'Ext.data.Model',
-    identifier: 'negative',
+Ext.define('Traccar.store.ReportTimeDistance', {
+    extend: 'Ext.data.Store',
+    model: 'Traccar.model.ReportTimeDistance',
 
-    fields: [{
-        name: 'deviceId',
-        type: 'int'
-    }, {
-        name: 'deviceName',
-        type: 'string'
-    }, {
-        name: 'distance',
-        type: 'float',
-        convert: Traccar.AttributeFormatter.getConverter('distance')
-    }, {
-        name: 'time',
-        type: 'int'
-    }]
+    proxy: {
+        type: 'rest',
+        url: 'api/reports/time-distance',
+        timeout: Traccar.Style.reportTimeout,
+        headers: {
+            'Accept': 'application/json'
+        },
+        listeners: {
+            exception: function (proxy, exception) {
+                Traccar.app.showError(exception);
+            }
+        }
+    }
 });

@@ -38,7 +38,7 @@ Ext.define('Traccar.store.ReportTypes', {
         key: 'chart',
         name: Strings.reportChart
     }, {
-        key: 'matrix',
-        name: Strings.reportMatrix
+        key: 'time-distance',
+        name: Strings.reportTimeDistance
     }]
 });

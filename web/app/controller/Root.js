@@ -171,7 +171,9 @@ Ext.define('Traccar.controller.Root', {
             this.fireEvent('showsingleevent', eventId);
             this.removeUrlParameter('eventId');
         }
-        dataLayer.push({'event': 'user-login'});
+        dataLayer.push({
+            'event': 'login'
+        });
     },
 
     beep: function () {

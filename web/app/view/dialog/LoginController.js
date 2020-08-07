@@ -50,6 +50,8 @@ Ext.define('Traccar.view.dialog.LoginController', {
                             Ext.util.Cookies.set('password', password, Ext.Date.add(new Date(), Ext.Date.YEAR, 1));
                         }
                         Traccar.app.setUser(Ext.decode(response.responseText));
+                        Ext.util.Cookies.set('userId', Traccar.app.getUser().id, Ext.Date.add(new Date(), Ext.Date.YEAR, 1));
+                        window.location.reload(); // Required to send the userId to gtm when the login is sucessful
                         this.fireViewEvent('login');
                     } else {
                         this.getView().setVisible(true);
@@ -67,6 +69,7 @@ Ext.define('Traccar.view.dialog.LoginController', {
     logout: function () {
         Ext.util.Cookies.clear('user');
         Ext.util.Cookies.clear('password');
+        Ext.util.Cookies.clear('userId');
         Ext.Ajax.request({
             scope: this,
             method: 'DELETE',

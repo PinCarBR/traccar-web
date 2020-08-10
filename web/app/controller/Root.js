@@ -172,7 +172,7 @@ Ext.define('Traccar.controller.Root', {
             this.removeUrlParameter('eventId');
         }
         dataLayer.push({
-            'event': 'login'
+            'event': 'app-loaded'
         });
     },
 

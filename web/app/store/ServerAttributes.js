@@ -19,5 +19,9 @@ Ext.define('Traccar.store.ServerAttributes', {
     extend: 'Ext.data.Store',
     model: 'Traccar.model.KnownAttribute',
 
-    data: []
+    data: [{
+        key: 'gtm.enable',
+        name: Strings.attributeGtmEnable,
+        valueType: 'boolean'
+    }]
 });

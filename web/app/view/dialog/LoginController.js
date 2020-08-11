@@ -52,9 +52,11 @@ Ext.define('Traccar.view.dialog.LoginController', {
                         }
                         Traccar.app.setUser(Ext.decode(response.responseText));
                         Ext.util.Cookies.set('userId', Traccar.app.getUser().id, Ext.Date.add(new Date(), Ext.Date.YEAR, 1));
-                        dataLayer.push({
-                            'event': 'login'
-                        });
+                        if (Traccar.app.getAttributePreference('gtm.enable', false)) {
+                            dataLayer.push({
+                                'event': 'login'
+                            });
+                        }
                         this.fireViewEvent('login');
                     } else {
                         this.getView().setVisible(true);
@@ -78,9 +80,11 @@ Ext.define('Traccar.view.dialog.LoginController', {
             method: 'DELETE',
             url: 'api/session',
             callback: function () {
-                dataLayer.push({
-                    'event': 'logout'
-                });
+                if (Traccar.app.getAttributePreference('gtm.enable', false)) {
+                    dataLayer.push({
+                        'event': 'logout'
+                    });
+                }
                 window.location.reload();
             }
         });

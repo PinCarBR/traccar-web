@@ -171,9 +171,11 @@ Ext.define('Traccar.controller.Root', {
             this.fireEvent('showsingleevent', eventId);
             this.removeUrlParameter('eventId');
         }
-        dataLayer.push({
-            'event': 'app-loaded'
-        });
+        if (Traccar.app.getAttributePreference('gtm.enable', false)) {
+            dataLayer.push({
+                'event': 'app-loaded'
+            });
+        }
     },
 
     beep: function () {

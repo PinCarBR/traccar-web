@@ -51,8 +51,10 @@ Ext.define('Traccar.view.dialog.LoginController', {
                             Ext.util.Cookies.set('password', password, Ext.Date.add(new Date(), Ext.Date.YEAR, 1));
                         }
                         Traccar.app.setUser(Ext.decode(response.responseText));
-                        Ext.util.Cookies.set('userId', Traccar.app.getUser().id, Ext.Date.add(new Date(), Ext.Date.YEAR, 1));
                         if (Traccar.app.getAttributePreference('gtm.enable', false)) {
+                            if (Traccar.app.getAttributePreference('gtm.userId', false)) {
+                                Ext.util.Cookies.set('userId', Traccar.app.getUser().id, Ext.Date.add(new Date(), Ext.Date.YEAR, 1));
+                            }
                             dataLayer.push({
                                 'event': 'login'
                             });

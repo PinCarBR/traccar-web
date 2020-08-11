@@ -107,6 +107,7 @@
     "attributeUiDisableMaintenance": "UI: Disable Maintenance",
     "attributeUiHidePositionAttributes": "UI: Hide Position Attributes",
     "attributeGtmEnable": "Google Tag Manager: Enable",
+    "attributeGtmUserId": "Google Tag Manager: Enable User ID",
     "errorTitle": "Error",
     "errorGeneral": "Invalid parameters or constraints violation",
     "errorConnection": "Connection error",

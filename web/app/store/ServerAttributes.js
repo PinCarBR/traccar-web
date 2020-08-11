@@ -24,5 +24,9 @@ Ext.define('Traccar.store.ServerAttributes', {
         key: 'gtm.enable',
         name: Strings.attributeGtmEnable,
         valueType: 'boolean'
+    }, {
+        key: 'gtm.userId',
+        name: Strings.attributeGtmUserId,
+        valueType: 'boolean'
     }]
 });

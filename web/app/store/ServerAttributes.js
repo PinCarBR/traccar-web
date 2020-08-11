@@ -1,6 +1,7 @@
 /*
  * Copyright 2017 Anton Tananaev (anton@traccar.org)
  * Copyright 2017 Andrey Kunitsyn (andrey@traccar.org)
+ * Copyright 2020 Rafael Miquelino (rafaelmiquelino@gmail.com)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by

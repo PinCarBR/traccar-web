@@ -9,13 +9,14 @@
         "Traccar": false,
         "Strings": false,
         "Locale": false,
-        "proj4": false
+        "proj4": false,
+        "dataLayer": false
     },
     "rules": {
         "strict": "off",
         "max-lines": ["error", 1000],
         "max-len": ["error", 180],
-        "max-statements": ["error", 35],
+        "max-statements": ["error", 40],
         "max-params": ["error", 5],
         "indent": ["error", 4, {
             "SwitchCase": 1

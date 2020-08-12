@@ -1,5 +1,6 @@
 /*
  * Copyright 2016 Anton Tananaev (anton@traccar.org)
+ * Copyright 2020 Rafael Miquelino (rafaelmiquelino@gmail.com)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -19,30 +20,17 @@ Ext.define('Traccar.store.ReportTypes', {
     extend: 'Ext.data.Store',
     fields: ['key', 'name'],
 
-    data: [
-    // {
-    //     key: 'route',
-    //     name: Strings.reportRoute
-    // },
-    {
+    data: [{
         key: 'events',
         name: Strings.reportEvents
-    },
-    {
+    }, {
         key: 'trips',
         name: Strings.reportTrips
-    },
-    {
+    }, {
         key: 'stops',
         name: Strings.reportStops
-    },
-    {
+    }, {
         key: 'summary',
         name: Strings.reportSummary
-    },
-    // {
-    //     key: 'chart',
-    //     name: Strings.reportChart
-    // },
-    ]
+    }]
 });

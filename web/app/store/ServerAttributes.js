@@ -19,5 +19,9 @@ Ext.define('Traccar.store.ServerAttributes', {
     extend: 'Ext.data.Store',
     model: 'Traccar.model.KnownAttribute',
 
-    data: []
+    data: [{
+        key: 'websocket.hideWarning',
+        name: Strings.websocketHideWarning,
+        valueType: 'boolean'
+    }]
 });

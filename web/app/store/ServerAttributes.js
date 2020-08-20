@@ -28,5 +28,9 @@ Ext.define('Traccar.store.ServerAttributes', {
         key: 'gtm.userId',
         name: Strings.attributeGtmUserId,
         valueType: 'boolean'
+    }, {
+        key: 'websocket.hideWarning',
+        name: Strings.websocketHideWarning,
+        valueType: 'boolean'
     }]
 });

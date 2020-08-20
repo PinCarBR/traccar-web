@@ -108,6 +108,7 @@
     "attributeUiHidePositionAttributes": "UI: Hide Position Attributes",
     "attributeGtmEnable": "Google Tag Manager: Enable",
     "attributeGtmUserId": "Google Tag Manager: Enable User ID",
+    "websocketHideWarning": "Hide web socket error",
     "errorTitle": "Error",
     "errorGeneral": "Invalid parameters or constraints violation",
     "errorConnection": "Connection error",

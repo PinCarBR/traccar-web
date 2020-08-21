@@ -209,9 +209,7 @@ Ext.define('Traccar.controller.Root', {
         socket.onclose = function () {
             if (!Traccar.app.getAttributePreference('websocket.hideWarning', false)) {
                 Traccar.app.showToast(Strings.errorSocket, Strings.errorTitle);
-            };
-
-            console.log(Strings.errorSocket);
+            }
 
             Ext.Ajax.request({
                 url: 'api/devices',

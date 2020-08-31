@@ -27,9 +27,11 @@ Ext.define('Traccar.view.dialog.LoginController', {
         this.lookupReference('registerButton').setDisabled(
             !Traccar.app.getServer().get('registration'));
         this.lookupReference('languageField').setValue(Locale.language);
+        this.initFirebase();
     },
 
     login: function () {
+        console.log("login called");
         var form = this.lookupReference('form');
         if (form.isValid()) {
             Ext.get('spinner').setVisible(true);
@@ -65,6 +67,7 @@ Ext.define('Traccar.view.dialog.LoginController', {
     },
 
     logout: function () {
+        console.log("logout called");
         Ext.util.Cookies.clear('user');
         Ext.util.Cookies.clear('password');
         Ext.Ajax.request({
@@ -108,10 +111,78 @@ Ext.define('Traccar.view.dialog.LoginController', {
 
     onLoginClick: function () {
         Ext.getElementById('submitButton').click();
-        this.login();
+        // this.login();
+        var form = this.lookupReference('form');
+        if (form.isValid()) {
+          this.loginFirebase(form.getValues());
+        }
     },
 
     onRegisterClick: function () {
         Ext.create('Traccar.view.dialog.Register').show();
+    },
+
+    initFirebase: function () {
+      var loginCallback = this.login;
+      var logoutCallback = this.logout;
+      var logoutFunction = this.firebaseLogout;
+      firebase.auth().onAuthStateChanged(function(user) {
+        if (user) {
+          var displayName = user.displayName;
+          var email = user.email;
+          var emailVerified = user.emailVerified;
+          var photoURL = user.photoURL;
+          var uid = user.uid;
+          var phoneNumber = user.phoneNumber;
+          var providerData = user.providerData;
+          user.getIdToken().then(function(accessToken) {
+            document.getElementById('sign-in-status').textContent = 'Signed in';
+            document.getElementById('sign-in').textContent = 'Sign out';
+            document.getElementById('sign-in').addEventListener('click', function() {
+              logoutFunction(logoutCallback);
+            });
+            document.getElementById('account-details').textContent = JSON.stringify({
+              displayName: displayName,
+              email: email,
+              emailVerified: emailVerified,
+              phoneNumber: phoneNumber,
+              photoURL: photoURL,
+              uid: uid,
+              accessToken: accessToken,
+              providerData: providerData
+            }, null, '  ');
+          console.log("login callback called");
+          loginCallback();
+          });
+        } else {
+          // User is signed out.
+          document.getElementById('sign-in-status').textContent = 'Signed out';
+          document.getElementById('sign-in').textContent = 'Sign in';
+          // document.getElementById('sign-in').addEventListener('click', function() {
+          //     ui.start('#firebaseui-auth-container', uiConfig);
+          //   });
+          document.getElementById('account-details').textContent = 'null';
+        }
+      }, function(error) {
+        console.log(error);
+      });
+    },
+
+    loginFirebase: function (formData) {
+      firebase.auth().signInWithEmailAndPassword(formData.email, formData.password).catch(function(error) {
+        // Handle Errors here.
+        console.log(error.code);
+        console.log(error.message);
+        // ...
+      });
+    },
+
+    firebaseLogout: function (logoutCallback) {
+      firebase.auth().signOut().then(function() {
+        logoutCallback();
+      }).catch(function(error) {
+        console.log(error.code);
+        console.log(error.message);
+      });
     }
 });

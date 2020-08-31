@@ -48,6 +48,11 @@ Ext.define('Traccar.controller.Root', {
                 maintenanceTypesStore.add(attribute);
             }
         }
+        var firebaseConfig = {
+          apiKey: "***REMOVED***",
+          authDomain: "***REMOVED***",
+        };
+        firebase.initializeApp(firebaseConfig);
     },
 
     calculateAttribute: function (data) {

@@ -339,7 +339,7 @@ Ext.define('Traccar.controller.Root', {
                 });
             }
         }, function(error) {
-            console.log(error);
+            Traccar.app.showError(error.message);
         });
     }
 

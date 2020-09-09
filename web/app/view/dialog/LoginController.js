@@ -134,8 +134,11 @@ Ext.define('Traccar.view.dialog.LoginController', {
 
     loginFirebase: function (formData) {
         firebase.auth().signInWithEmailAndPassword(formData.email, formData.password).catch(function(error) {
-          console.log(error.code);
-          console.log(error.message);
+            if (error.code == "auth/wrong-password" || error.code == "auth/invalid-email" || error.code == "auth/user-not-found") {
+                Traccar.app.showError(Strings.loginFailed);
+            } else {
+                Traccar.app.showError(error.message);
+            }
         });
     },
 
@@ -143,8 +146,7 @@ Ext.define('Traccar.view.dialog.LoginController', {
       firebase.auth().signOut().then(function() {
         logoutCallback();
       }).catch(function(error) {
-        console.log(error.code);
-        console.log(error.message);
+        Traccar.app.showError(error.message);
       });
     }
 });

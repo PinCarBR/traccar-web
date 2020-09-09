@@ -31,39 +31,64 @@ Ext.define('Traccar.view.dialog.LoginController', {
     },
 
     login: function () {
+        var that = Ext.create('Traccar.view.dialog.LoginController');
         console.log("login called");
-        var form = this.lookupReference('form');
-        if (form.isValid()) {
-            Ext.get('spinner').setVisible(true);
-            this.getView().setVisible(false);
-            Ext.Ajax.request({
-                scope: this,
-                method: 'POST',
-                url: 'api/session',
-                params: form.getValues(),
-                callback: function (options, success, response) {
-                    var user, password;
-                    Ext.get('spinner').setVisible(false);
-                    if (success) {
-                        if (this.lookupReference('rememberField').getValue()) {
-                            user = Ext.util.Base64.encode(this.lookupReference('userField').getValue());
-                            password = Ext.util.Base64.encode(this.lookupReference('passwordField').getValue());
-                            Ext.util.Cookies.set('user', user, Ext.Date.add(new Date(), Ext.Date.YEAR, 1));
-                            Ext.util.Cookies.set('password', password, Ext.Date.add(new Date(), Ext.Date.YEAR, 1));
-                        }
-                        Traccar.app.setUser(Ext.decode(response.responseText));
-                        this.fireViewEvent('login');
-                    } else {
-                        this.getView().setVisible(true);
-                        if (response.status === 401) {
-                            Traccar.app.showError(Strings.loginFailed);
-                        } else {
-                            Traccar.app.showError(response.responseText);
-                        }
-                    }
-                }
-            });
-        }
+        firebase.auth().currentUser.getIdToken(/* forceRefresh */ true).then(function(idToken) {
+              console.log(idToken);// Send token to your backend via HTTPS
+              var token = {token:idToken};
+              Ext.Ajax.request({
+                  scope: this,
+                  method: 'POST',
+                  url: 'api/session',
+                  params:token,
+                  callback: function (options, success, response) {
+                      Ext.get('spinner').setVisible(false);
+                      if (success) {
+                          Traccar.app.setUser(Ext.decode(response.responseText));
+                          that.fireViewEvent('login');
+                      } else {
+                          that.getView().setVisible(true);
+                          if (response.status === 401) {
+                              Traccar.app.showError(Strings.loginFailed);
+                          } else {
+                              Traccar.app.showError(response.responseText);
+                          }
+                      }
+                  }
+              });
+        });
+        // var form = this.lookupReference('form');
+        // if (form.isValid()) {
+        //     Ext.get('spinner').setVisible(true);
+        //     this.getView().setVisible(false);
+        //     Ext.Ajax.request({
+        //         scope: this,
+        //         method: 'POST',
+        //         url: 'api/session',
+        //         params: form.getValues(),
+        //         callback: function (options, success, response) {
+        //             var user, password;
+        //             Ext.get('spinner').setVisible(false);
+        //             if (success) {
+        //                 if (this.lookupReference('rememberField').getValue()) {
+        //                     user = Ext.util.Base64.encode(this.lookupReference('userField').getValue());
+        //                     password = Ext.util.Base64.encode(this.lookupReference('passwordField').getValue());
+        //                     Ext.util.Cookies.set('user', user, Ext.Date.add(new Date(), Ext.Date.YEAR, 1));
+        //                     Ext.util.Cookies.set('password', password, Ext.Date.add(new Date(), Ext.Date.YEAR, 1));
+        //                 }
+        //                 Traccar.app.setUser(Ext.decode(response.responseText));
+        //                 this.fireViewEvent('login');
+        //             } else {
+        //                 this.getView().setVisible(true);
+        //                 if (response.status === 401) {
+        //                     Traccar.app.showError(Strings.loginFailed);
+        //                 } else {
+        //                     Traccar.app.showError(response.responseText);
+        //                 }
+        //             }
+        //         }
+        //     });
+        // }
     },
 
     logout: function () {
@@ -105,7 +130,11 @@ Ext.define('Traccar.view.dialog.LoginController', {
 
     onSpecialKey: function (field, e) {
         if (e.getKey() === e.ENTER) {
-            this.login();
+            // this.login();
+            var form = this.lookupReference('form');
+            if (form.isValid()) {
+              this.loginFirebase(form.getValues());
+            }
         }
     },
 

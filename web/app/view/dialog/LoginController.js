@@ -27,72 +27,41 @@ Ext.define('Traccar.view.dialog.LoginController', {
         this.lookupReference('registerButton').setDisabled(
             !Traccar.app.getServer().get('registration'));
         this.lookupReference('languageField').setValue(Locale.language);
-        this.initFirebase();
     },
 
-    login: function () {
-        var that = Ext.create('Traccar.view.dialog.LoginController');
-        console.log("login called");
-        firebase.auth().currentUser.getIdToken(/* forceRefresh */ true).then(function(idToken) {
-              console.log(idToken);// Send token to your backend via HTTPS
-              var token = {token:idToken};
-              Ext.Ajax.request({
-                  scope: this,
-                  method: 'POST',
-                  url: 'api/session',
-                  params:token,
-                  callback: function (options, success, response) {
-                      Ext.get('spinner').setVisible(false);
-                      if (success) {
-                          Traccar.app.setUser(Ext.decode(response.responseText));
-                          that.fireViewEvent('login');
-                      } else {
-                          that.getView().setVisible(true);
-                          if (response.status === 401) {
-                              Traccar.app.showError(Strings.loginFailed);
-                          } else {
-                              Traccar.app.showError(response.responseText);
-                          }
-                      }
-                  }
-              });
+    login: function (loginParams) {
+        Ext.get('spinner').setVisible(true);
+        // this.getView().setVisible(false);
+        Ext.Ajax.request({
+            scope: this,
+            method: 'POST',
+            url: 'api/session',
+            params:loginParams,
+            callback: function (options, success, response) {
+                var user, password;
+                Ext.get('spinner').setVisible(false);
+                if (success) {
+                    // if (this.lookupReference('rememberField').getValue()) {
+                    //     user = Ext.util.Base64.encode(this.lookupReference('userField').getValue());
+                    //     password = Ext.util.Base64.encode(this.lookupReference('passwordField').getValue());
+                    //     Ext.util.Cookies.set('user', user, Ext.Date.add(new Date(), Ext.Date.YEAR, 1));
+                    //     Ext.util.Cookies.set('password', password, Ext.Date.add(new Date(), Ext.Date.YEAR, 1));
+                    // }
+                    Traccar.app.setUser(Ext.decode(response.responseText));
+                    // this.fireViewEvent('login');
+                } else {
+                    // this.getView().setVisible(true);
+                    if (response.status === 401) {
+                        Traccar.app.showError(Strings.loginFailed);
+                    } else {
+                        Traccar.app.showError(response.responseText);
+                    }
+                }
+            }
         });
-        // var form = this.lookupReference('form');
-        // if (form.isValid()) {
-        //     Ext.get('spinner').setVisible(true);
-        //     this.getView().setVisible(false);
-        //     Ext.Ajax.request({
-        //         scope: this,
-        //         method: 'POST',
-        //         url: 'api/session',
-        //         params: form.getValues(),
-        //         callback: function (options, success, response) {
-        //             var user, password;
-        //             Ext.get('spinner').setVisible(false);
-        //             if (success) {
-        //                 if (this.lookupReference('rememberField').getValue()) {
-        //                     user = Ext.util.Base64.encode(this.lookupReference('userField').getValue());
-        //                     password = Ext.util.Base64.encode(this.lookupReference('passwordField').getValue());
-        //                     Ext.util.Cookies.set('user', user, Ext.Date.add(new Date(), Ext.Date.YEAR, 1));
-        //                     Ext.util.Cookies.set('password', password, Ext.Date.add(new Date(), Ext.Date.YEAR, 1));
-        //                 }
-        //                 Traccar.app.setUser(Ext.decode(response.responseText));
-        //                 this.fireViewEvent('login');
-        //             } else {
-        //                 this.getView().setVisible(true);
-        //                 if (response.status === 401) {
-        //                     Traccar.app.showError(Strings.loginFailed);
-        //                 } else {
-        //                     Traccar.app.showError(response.responseText);
-        //                 }
-        //             }
-        //         }
-        //     });
-        // }
     },
 
     logout: function () {
-        console.log("logout called");
         Ext.util.Cookies.clear('user');
         Ext.util.Cookies.clear('password');
         Ext.Ajax.request({
@@ -130,20 +99,20 @@ Ext.define('Traccar.view.dialog.LoginController', {
 
     onSpecialKey: function (field, e) {
         if (e.getKey() === e.ENTER) {
-            // this.login();
             var form = this.lookupReference('form');
             if (form.isValid()) {
-              this.loginFirebase(form.getValues());
+                this.loginFirebase(form.getValues());
+                // this.login();
             }
         }
     },
 
     onLoginClick: function () {
         Ext.getElementById('submitButton').click();
-        // this.login();
         var form = this.lookupReference('form');
         if (form.isValid()) {
-          this.loginFirebase(form.getValues());
+            this.loginFirebase(form.getValues());
+            // this.login();
         }
     },
 
@@ -151,59 +120,11 @@ Ext.define('Traccar.view.dialog.LoginController', {
         Ext.create('Traccar.view.dialog.Register').show();
     },
 
-    initFirebase: function () {
-      var loginCallback = this.login;
-      var logoutCallback = this.logout;
-      var logoutFunction = this.firebaseLogout;
-      firebase.auth().onAuthStateChanged(function(user) {
-        if (user) {
-          var displayName = user.displayName;
-          var email = user.email;
-          var emailVerified = user.emailVerified;
-          var photoURL = user.photoURL;
-          var uid = user.uid;
-          var phoneNumber = user.phoneNumber;
-          var providerData = user.providerData;
-          user.getIdToken().then(function(accessToken) {
-            document.getElementById('sign-in-status').textContent = 'Signed in';
-            document.getElementById('sign-in').textContent = 'Sign out';
-            document.getElementById('sign-in').addEventListener('click', function() {
-              logoutFunction(logoutCallback);
-            });
-            document.getElementById('account-details').textContent = JSON.stringify({
-              displayName: displayName,
-              email: email,
-              emailVerified: emailVerified,
-              phoneNumber: phoneNumber,
-              photoURL: photoURL,
-              uid: uid,
-              accessToken: accessToken,
-              providerData: providerData
-            }, null, '  ');
-          console.log("login callback called");
-          loginCallback();
-          });
-        } else {
-          // User is signed out.
-          document.getElementById('sign-in-status').textContent = 'Signed out';
-          document.getElementById('sign-in').textContent = 'Sign in';
-          // document.getElementById('sign-in').addEventListener('click', function() {
-          //     ui.start('#firebaseui-auth-container', uiConfig);
-          //   });
-          document.getElementById('account-details').textContent = 'null';
-        }
-      }, function(error) {
-        console.log(error);
-      });
-    },
-
     loginFirebase: function (formData) {
-      firebase.auth().signInWithEmailAndPassword(formData.email, formData.password).catch(function(error) {
-        // Handle Errors here.
-        console.log(error.code);
-        console.log(error.message);
-        // ...
-      });
+        firebase.auth().signInWithEmailAndPassword(formData.email, formData.password).catch(function(error) {
+          console.log(error.code);
+          console.log(error.message);
+        });
     },
 
     firebaseLogout: function (logoutCallback) {

@@ -53,6 +53,7 @@ Ext.define('Traccar.controller.Root', {
           authDomain: "***REMOVED***",
         };
         firebase.initializeApp(firebaseConfig);
+        this.initFirebaseAuthStateHandler();
     },
 
     calculateAttribute: function (data) {
@@ -321,5 +322,19 @@ Ext.define('Traccar.controller.Root', {
         if (lat === 0 && lon === 0 && zoom === 0) {
             this.fireEvent('zoomtoalldevices');
         }
+    },
+
+    initFirebaseAuthStateHandler: function () {
+        var loginCallback = Ext.create('Traccar.view.dialog.LoginController').login;
+        firebase.auth().onAuthStateChanged(function(user) {
+            if (user) {
+                user.getIdToken().then(function(idToken) {
+                    loginCallback({token:idToken});
+                });
+            }
+        }, function(error) {
+            console.log(error);
+        });
     }
+
 });

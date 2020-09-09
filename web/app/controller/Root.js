@@ -48,12 +48,14 @@ Ext.define('Traccar.controller.Root', {
                 maintenanceTypesStore.add(attribute);
             }
         }
-        var firebaseConfig = {
-          apiKey: "***REMOVED***",
-          authDomain: "***REMOVED***",
-        };
-        firebase.initializeApp(firebaseConfig);
-        this.initFirebaseAuthStateHandler();
+        if (Traccar.app.getAttributePreference('auth.external', false)) {
+            var firebaseConfig = {
+                apiKey: Traccar.app.getAttributePreference('auth.firebaseApiKey', null),
+                authDomain: Traccar.app.getAttributePreference('auth.firebaseAuthDomain', null),
+            };
+            firebase.initializeApp(firebaseConfig);
+            this.initFirebaseAuthStateHandler();
+        }
     },
 
     calculateAttribute: function (data) {

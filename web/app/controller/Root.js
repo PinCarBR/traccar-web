@@ -48,14 +48,6 @@ Ext.define('Traccar.controller.Root', {
                 maintenanceTypesStore.add(attribute);
             }
         }
-        if (Traccar.app.getAttributePreference('auth.external', false)) {
-            var firebaseConfig = {
-                apiKey: Traccar.app.getAttributePreference('auth.firebaseApiKey', null),
-                authDomain: Traccar.app.getAttributePreference('auth.firebaseAuthDomain', null),
-            };
-            firebase.initializeApp(firebaseConfig);
-            this.initFirebaseAuthStateHandler();
-        }
     },
 
     calculateAttribute: function (data) {
@@ -78,6 +70,7 @@ Ext.define('Traccar.controller.Root', {
         var token, parameters = {};
         if (success) {
             Traccar.app.setServer(Ext.decode(response.responseText));
+            this.initFirebase();
             token = Ext.Object.fromQueryString(window.location.search).token;
             if (token) {
                 parameters.token = token;
@@ -323,6 +316,17 @@ Ext.define('Traccar.controller.Root', {
         zoom = Traccar.app.getPreference('zoom', 0);
         if (lat === 0 && lon === 0 && zoom === 0) {
             this.fireEvent('zoomtoalldevices');
+        }
+    },
+
+    initFirebase: function() {
+        if (Traccar.app.getAttributePreference('auth.external', false)) {
+            var firebaseConfig = {
+                apiKey: Traccar.app.getAttributePreference('auth.firebaseApiKey', null),
+                authDomain: Traccar.app.getAttributePreference('auth.firebaseAuthDomain', null),
+            };
+            firebase.initializeApp(firebaseConfig);
+            this.initFirebaseAuthStateHandler();
         }
     },
 

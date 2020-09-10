@@ -125,21 +125,14 @@ Ext.define('Traccar.view.dialog.LoginController', {
         Ext.create('Traccar.view.dialog.Register').show();
     },
 
-    loginSelector: function () {
-        var form = this.lookupReference('form');
-        var that = this;
-        if (form.isValid()) {
-            Ext.get('spinner').setVisible(true);
-            this.getView().setVisible(false);
-            if (Traccar.app.getAttributePreference('auth.external', false)) {
-                const loginRequest = new CustomEvent('login-request', { 
-                    detail: {
-                        formData: form.getValues(),
-                        scope: this
-                    }
-                });
-                window.dispatchEvent(loginRequest);
-            } else {
+    loginSelector: function (e) {
+        if (Traccar.app.getAttributePreference('auth.external', false)) {
+            Ext.create('controller.login').login(e.detail);
+        } else {
+            var form = this.lookupReference('form');
+            if (form.isValid()) {
+                Ext.get('spinner').setVisible(true);
+                this.getView().setVisible(false);
                 this.login(form.getValues());
             }
         }

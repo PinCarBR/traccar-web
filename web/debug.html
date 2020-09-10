@@ -9,11 +9,15 @@
 <link rel="stylesheet" href="app.css">
 </head>
 <body>
+<div id="firebaseui-auth-container"></div>
 <div id="spinner"></div>
 <div id="attribution">Powered by <a href="https://www.traccar.org/">Traccar GPS Tracking System</a></div>
+<script src="https://www.gstatic.com/firebasejs/7.19.0/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/7.19.0/firebase-auth.js"></script>
+<script src="https://www.gstatic.com/firebasejs/ui/4.6.1/firebase-ui-auth__pt_br.js"></script>
+<link type="text/css" rel="stylesheet" href="https://www.gstatic.com/firebasejs/ui/4.6.1/firebase-ui-auth.css" />
+<script src="firebase-config.js"></script>
+<script src="firebase-auth-ui.js"></script>
 <script id="loadScript" mode="debug" src="load.js"></script>
-<div id="sign-in-status"></div>
-<button id="sign-in"></button >
-<pre id="account-details"></pre>
 </body>
 </html>

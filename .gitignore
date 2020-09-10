@@ -8,6 +8,7 @@ web/modern
 sencha-error-*
 node_modules
 package-lock.json
+firebase-config.js
 
 .*.swp
 *~

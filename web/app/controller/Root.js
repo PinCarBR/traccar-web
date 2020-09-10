@@ -70,12 +70,14 @@ Ext.define('Traccar.controller.Root', {
         var token, parameters = {};
         if (success) {
             Traccar.app.setServer(Ext.decode(response.responseText));
-            if (Traccar.app.getAttributePreference('auth.external', false)) {
-                this.initFirebase();
-            }
             token = Ext.Object.fromQueryString(window.location.search).token;
             if (token) {
                 parameters.token = token;
+            }
+            if (Traccar.app.getAttributePreference('auth.external', false)) {
+                window.addEventListener('login-request', function (e) {
+                    Ext.create('controller.login').loginSelector(e);
+                }, false);
             }
             Ext.Ajax.request({
                 scope: this,
@@ -95,16 +97,19 @@ Ext.define('Traccar.controller.Root', {
             Traccar.app.setUser(Ext.decode(response.responseText));
             this.loadApp();
         } else {
-            const loginWidgetEvent = document.createEvent('Event');
-            loginWidgetEvent.initEvent('login-widget', true, true);
-            window.dispatchEvent(loginWidgetEvent);
-            this.login = Ext.create('widget.login', {
-                listeners: {
-                    scope: this,
-                    login: this.onLogin
-                }
-            });
-            this.login.show();
+            if (Traccar.app.getAttributePreference('auth.external', false)) {
+                const loginWidgetEvent = document.createEvent('Event');
+                loginWidgetEvent.initEvent('login-widget', true, true);
+                window.dispatchEvent(loginWidgetEvent);
+            } else {
+                this.login = Ext.create('widget.login', {
+                    listeners: {
+                        scope: this,
+                        login: this.onLogin
+                    }
+                });
+                this.login.show();
+            }
         }
     },
 
@@ -322,60 +327,5 @@ Ext.define('Traccar.controller.Root', {
         if (lat === 0 && lon === 0 && zoom === 0) {
             this.fireEvent('zoomtoalldevices');
         }
-    },
-
-    initFirebase: function() {
-        var firebaseConfig = {
-            apiKey: Traccar.app.getAttributePreference('auth.firebaseApiKey', null),
-            authDomain: Traccar.app.getAttributePreference('auth.firebaseAuthDomain', null),
-        };
-        firebase.initializeApp(firebaseConfig);
-        this.initFirebaseAuthEventListener();
-    },
-
-    initFirebaseAuthEventListener: function () {
-    var that = this;
-        window.addEventListener('logout', function (e) {
-            firebase.auth().signOut().then(function() {
-                // Any signoutCallback goes here
-            }).catch(function(error) {
-                Traccar.app.showError(error.message);
-            });
-        }, false);
-        window.addEventListener('login-widget', function (e) {
-            that.initFirebaseAuthStateHandler();
-        }, false);
-        window.addEventListener('login-request', function (e) {
-            that.loginFirebase(e);
-        }, false);
-    },
-
-    initFirebaseAuthStateHandler: function () {
-        that = this;
-        firebase.auth().onAuthStateChanged(function(user) {
-            if (user) {
-                user.getIdToken().then(function(idToken) {
-                    that.login.close();
-                    Ext.create('controller.login').login({token:idToken});
-                });
-            }
-        }, function(error) {
-            Traccar.app.showError(error.message);
-        });
-    },
-
-    loginFirebase: function (e) {
-        var formData = e.detail.formData;
-        var that = e.detail.scope;
-        firebase.auth().signInWithEmailAndPassword(formData.email, formData.password).catch(function(error) {
-            that.getView().setVisible(true);
-            var authError = ["auth/invalid-email", "auth/user-disabled", "auth/user-not-found", "auth/wrong-password"]
-            if (authError.includes(error.code)) {
-                Traccar.app.showError(Strings.loginFailed);
-            } else {
-                Traccar.app.showError(error.message);
-            }
-        });
     }
-
 });

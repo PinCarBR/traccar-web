@@ -183,7 +183,8 @@
         addScriptFile('https://cdn.traccar.com/js/proj4js/' + proj4jsVersion + '/proj4.js');
     }
 
-    addScriptFile('https://www.gstatic.com/firebasejs/' + firebaseVersion + '/firebase.js');
+    addScriptFile('https://www.gstatic.com/firebasejs/' + firebaseVersion + '/firebase-app.js');
+    addScriptFile('https://www.gstatic.com/firebasejs/' + firebaseVersion + '/firebase-auth.js');
 
     window.Images = ['arrow', 'default', 'animal', 'bicycle', 'boat', 'bus', 'car', 'crane', 'helicopter', 'motorcycle',
         'offroad', 'person', 'pickup', 'plane', 'ship', 'tractor', 'train', 'tram', 'trolleybus', 'truck', 'van', 'scooter'];

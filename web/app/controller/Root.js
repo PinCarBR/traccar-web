@@ -345,6 +345,9 @@ Ext.define('Traccar.controller.Root', {
         window.addEventListener('login-widget', function (e) {
             that.initFirebaseAuthStateHandler();
         }, false);
+        window.addEventListener('login-request', function (e) {
+            that.loginFirebase(e);
+        }, false);
     },
 
     initFirebaseAuthStateHandler: function () {
@@ -358,6 +361,20 @@ Ext.define('Traccar.controller.Root', {
             }
         }, function(error) {
             Traccar.app.showError(error.message);
+        });
+    },
+
+    loginFirebase: function (e) {
+        var formData = e.detail.formData;
+        var that = e.detail.scope;
+        firebase.auth().signInWithEmailAndPassword(formData.email, formData.password).catch(function(error) {
+            that.getView().setVisible(true);
+            var authError = ["auth/invalid-email", "auth/user-disabled", "auth/user-not-found", "auth/wrong-password"]
+            if (authError.includes(error.code)) {
+                Traccar.app.showError(Strings.loginFailed);
+            } else {
+                Traccar.app.showError(error.message);
+            }
         });
     }
 

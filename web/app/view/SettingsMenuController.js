@@ -171,11 +171,6 @@ Ext.define('Traccar.view.SettingsMenuController', {
     },
 
     onLogoutClick: function () {
-        var logoutCallback = Ext.create('Traccar.view.dialog.LoginController').logout;
-        if (Traccar.app.getAttributePreference('auth.external', false)) {
-            Ext.create('Traccar.view.dialog.LoginController').firebaseLogout(logoutCallback);
-        } else {
-            logoutCallback();
-        }
+        Ext.create('Traccar.view.dialog.LoginController').logout();
     }
 });

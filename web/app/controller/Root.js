@@ -93,6 +93,7 @@ Ext.define('Traccar.controller.Root', {
             Traccar.app.setUser(Ext.decode(response.responseText));
             this.loadApp();
         } else {
+            this.initFirebaseAuthStateHandler();
             this.login = Ext.create('widget.login', {
                 listeners: {
                     scope: this,
@@ -326,8 +327,18 @@ Ext.define('Traccar.controller.Root', {
                 authDomain: Traccar.app.getAttributePreference('auth.firebaseAuthDomain', null),
             };
             firebase.initializeApp(firebaseConfig);
-            this.initFirebaseAuthStateHandler();
+            this.initFirebaseAuthEventListener();
         }
+    },
+
+    initFirebaseAuthEventListener: function () {
+        window.addEventListener('logout', function (e) {
+            firebase.auth().signOut().then(function() {
+                // Any signoutCallback goes here
+            }).catch(function(error) {
+                Traccar.app.showError(error.message);
+            });
+        }, false);
     },
 
     initFirebaseAuthStateHandler: function () {

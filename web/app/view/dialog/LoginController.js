@@ -31,36 +31,36 @@ Ext.define('Traccar.view.dialog.LoginController', {
 
     login: function (loginParams) {
         var externalAuth = Traccar.app.getAttributePreference('auth.external', false)
-        if (!externalAuth) {
-            this.getView().setVisible(false)
-        };
         Ext.Ajax.request({
             scope: this,
             method: 'POST',
             url: 'api/session',
-            params:loginParams,
+            params: loginParams,
             callback: function (options, success, response) {
                 var user, password;
                 Ext.get('spinner').setVisible(false);
-                if (success) {
-                    if (!externalAuth) {
+                if (!externalAuth) {
+                    if (success) {
                         if (this.lookupReference('rememberField').getValue()) {
                             user = Ext.util.Base64.encode(this.lookupReference('userField').getValue());
                             password = Ext.util.Base64.encode(this.lookupReference('passwordField').getValue());
                             Ext.util.Cookies.set('user', user, Ext.Date.add(new Date(), Ext.Date.YEAR, 1));
                             Ext.util.Cookies.set('password', password, Ext.Date.add(new Date(), Ext.Date.YEAR, 1));
                         }
-                    }
-                    Traccar.app.setUser(Ext.decode(response.responseText));
-                    if (!externalAuth) {
+                        Traccar.app.setUser(Ext.decode(response.responseText));
                         this.fireViewEvent('login');
+                    } else {
+                        this.getView().setVisible(true);
+                        if (response.status === 401) {
+                            Traccar.app.showError(Strings.loginFailed);
+                        } else {
+                            Traccar.app.showError(response.responseText);
+                        }
                     }
                 } else {
-                    if (!externalAuth) {
-                        this.getView().setVisible(true);
-                    }
-                    if (response.status === 401) {
-                        Traccar.app.showError(Strings.loginFailed);
+                    if (success) {
+                        Traccar.app.setUser(Ext.decode(response.responseText));
+                        Ext.create('controller.root').loadApp();
                     } else {
                         Traccar.app.showError(response.responseText);
                     }
@@ -124,6 +124,7 @@ Ext.define('Traccar.view.dialog.LoginController', {
         var form = this.lookupReference('form');
         if (form.isValid()) {
             Ext.get('spinner').setVisible(true);
+            this.getView().setVisible(false);
             if (Traccar.app.getAttributePreference('auth.external', false)) {
                 this.loginFirebase(form.getValues());
             } else {
@@ -133,8 +134,11 @@ Ext.define('Traccar.view.dialog.LoginController', {
     },
 
     loginFirebase: function (formData) {
+        var that = this;
         firebase.auth().signInWithEmailAndPassword(formData.email, formData.password).catch(function(error) {
-            if (error.code == "auth/wrong-password" || error.code == "auth/invalid-email" || error.code == "auth/user-not-found") {
+            that.getView().setVisible(true);
+            var authError = ["auth/invalid-email", "auth/user-disabled", "auth/user-not-found", "auth/wrong-password"]
+            if (authError.includes(error.code)) {
                 Traccar.app.showError(Strings.loginFailed);
             } else {
                 Traccar.app.showError(error.message);

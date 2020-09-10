@@ -331,11 +331,12 @@ Ext.define('Traccar.controller.Root', {
     },
 
     initFirebaseAuthStateHandler: function () {
-        var loginCallback = Ext.create('Traccar.view.dialog.LoginController').login;
+        that = this;
         firebase.auth().onAuthStateChanged(function(user) {
             if (user) {
                 user.getIdToken().then(function(idToken) {
-                    loginCallback({token:idToken});
+                    that.login.close();
+                    Ext.create('controller.login').login({token:idToken});
                 });
             }
         }, function(error) {

@@ -70,7 +70,9 @@ Ext.define('Traccar.controller.Root', {
         var token, parameters = {};
         if (success) {
             Traccar.app.setServer(Ext.decode(response.responseText));
-            this.initFirebase();
+            if (Traccar.app.getAttributePreference('auth.external', false)) {
+                this.initFirebase();
+            }
             token = Ext.Object.fromQueryString(window.location.search).token;
             if (token) {
                 parameters.token = token;
@@ -323,14 +325,12 @@ Ext.define('Traccar.controller.Root', {
     },
 
     initFirebase: function() {
-        if (Traccar.app.getAttributePreference('auth.external', false)) {
-            var firebaseConfig = {
-                apiKey: Traccar.app.getAttributePreference('auth.firebaseApiKey', null),
-                authDomain: Traccar.app.getAttributePreference('auth.firebaseAuthDomain', null),
-            };
-            firebase.initializeApp(firebaseConfig);
-            this.initFirebaseAuthEventListener();
-        }
+        var firebaseConfig = {
+            apiKey: Traccar.app.getAttributePreference('auth.firebaseApiKey', null),
+            authDomain: Traccar.app.getAttributePreference('auth.firebaseAuthDomain', null),
+        };
+        firebase.initializeApp(firebaseConfig);
+        this.initFirebaseAuthEventListener();
     },
 
     initFirebaseAuthEventListener: function () {

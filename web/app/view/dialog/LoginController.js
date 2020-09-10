@@ -78,9 +78,11 @@ Ext.define('Traccar.view.dialog.LoginController', {
             url: 'api/session',
             callback: function () {
                 window.location.reload();
-                const logoutEvent = document.createEvent('Event');
-                logoutEvent.initEvent('logout', true, true);
-                window.dispatchEvent(logoutEvent);
+                if (Traccar.app.getAttributePreference('auth.external', false)) {
+                    const logoutEvent = document.createEvent('Event');
+                    logoutEvent.initEvent('logout', true, true);
+                    window.dispatchEvent(logoutEvent);
+                }
             }
         });
     },

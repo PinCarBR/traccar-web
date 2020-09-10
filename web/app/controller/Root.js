@@ -93,7 +93,9 @@ Ext.define('Traccar.controller.Root', {
             Traccar.app.setUser(Ext.decode(response.responseText));
             this.loadApp();
         } else {
-            this.initFirebaseAuthStateHandler();
+            const loginWidgetEvent = document.createEvent('Event');
+            loginWidgetEvent.initEvent('login-widget', true, true);
+            window.dispatchEvent(loginWidgetEvent);
             this.login = Ext.create('widget.login', {
                 listeners: {
                     scope: this,
@@ -332,12 +334,16 @@ Ext.define('Traccar.controller.Root', {
     },
 
     initFirebaseAuthEventListener: function () {
+    var that = this;
         window.addEventListener('logout', function (e) {
             firebase.auth().signOut().then(function() {
                 // Any signoutCallback goes here
             }).catch(function(error) {
                 Traccar.app.showError(error.message);
             });
+        }, false);
+        window.addEventListener('login-widget', function (e) {
+            that.initFirebaseAuthStateHandler();
         }, false);
     },
 

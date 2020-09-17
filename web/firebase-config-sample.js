@@ -1,5 +1,6 @@
-var config = {
-    apiKey: "YOUR_API_KEY",
-    authDomain: "your-app.firebaseapp.com"
+const firebaseConfig = {
+    apiKey: "API Key",
+    authDomain: "Auth Domain",
 };
-firebase.initializeApp(config);
+const tosUrl = "https://siteTosUrl";
+const privacyPolicyUrl = "https://privacyPolicyUrl";

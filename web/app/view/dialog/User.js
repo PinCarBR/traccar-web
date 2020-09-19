@@ -35,18 +35,24 @@ Ext.define('Traccar.view.dialog.User', {
             items: [{
                 xtype: 'unescapedTextField',
                 name: 'name',
-                fieldLabel: Strings.sharedName
+                fieldLabel: Strings.sharedName,
+                disabled: true,
+                reference: 'nameField'
             }, {
                 xtype: 'unescapedTextField',
                 name: 'email',
                 fieldLabel: Strings.userEmail,
-                allowBlank: false
+                allowBlank: false,
+                disabled: true,
+                reference: 'emailField'
             }, {
                 xtype: 'textfield',
                 name: 'password',
                 fieldLabel: Strings.userPassword,
                 inputType: 'password',
-                allowBlank: false
+                allowBlank: false,
+                disabled: true,
+                reference: 'passwordField'
             }]
         }, {
             xtype: 'fieldset',
@@ -56,7 +62,9 @@ Ext.define('Traccar.view.dialog.User', {
             items: [{
                 xtype: 'unescapedTextField',
                 name: 'phone',
-                fieldLabel: Strings.sharedPhone
+                fieldLabel: Strings.sharedPhone,
+                disabled: true,
+                reference: 'phoneField'
             }, {
                 xtype: 'clearableComboBox',
                 name: 'map',
@@ -174,7 +182,9 @@ Ext.define('Traccar.view.dialog.User', {
                         cls: 'iconCls: x-fa fa-refresh',
                         handler: 'generateToken'
                     }
-                }
+                },
+                disabled: true,
+                reference: 'tokenField'
             }]
         }]
     },
@@ -195,6 +205,14 @@ Ext.define('Traccar.view.dialog.User', {
         hidden: true,
         reference: 'testNotificationButton',
         tooltip: Strings.sharedTestNotification,
+        tooltipType: 'title'
+    }, {
+        glyph: 'xf007@FontAwesome',
+        minWidth: 0,
+        handler: 'onUserProfileClick',
+        hidden: true,
+        reference: 'userProfileButton',
+        tooltip: Strings.sharedUserProfile,
         tooltipType: 'title'
     }, {
         xtype: 'tbfill'

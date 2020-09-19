@@ -32,6 +32,16 @@ Ext.define('Traccar.view.dialog.UserController', {
             this.lookupReference('deviceReadonlyField').setDisabled(false);
             this.lookupReference('limitCommandsField').setDisabled(false);
         }
+        if (!Traccar.app.getAttributePreference('auth.external', false)) {
+            this.lookupReference('nameField').setDisabled(false);
+            this.lookupReference('emailField').setDisabled(false);
+            this.lookupReference('passwordField').setDisabled(false);
+            this.lookupReference('phoneField').setDisabled(false);
+            this.lookupReference('tokenField').setDisabled(false);
+        }
+        if (Traccar.app.getAttributePreference('auth.external', false)) {
+            this.lookupReference('userProfileButton').setHidden(false);
+        } 
     },
 
     symbols: 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789',
@@ -76,5 +86,11 @@ Ext.define('Traccar.view.dialog.UserController', {
             });
         }
         button.up('window').close();
+    },
+
+    onUserProfileClick: function () {
+        const userProfile = document.createEvent('Event');
+        userProfile.initEvent('user-profile', true, true);
+        window.dispatchEvent(userProfile);
     }
 });

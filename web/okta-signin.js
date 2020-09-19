@@ -47,3 +47,7 @@ window.addEventListener('login-widget', (e) => {
 window.addEventListener('logout', (e) => {
   authClient.signOut();
 }, false);
+
+window.addEventListener('user-profile', (e) => {
+  window.open(`https://${oktaDomain}/enduser/settings`, '_blank');
+}, false);

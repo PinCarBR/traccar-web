@@ -8,7 +8,6 @@ web/modern
 sencha-error-*
 node_modules
 package-lock.json
-signin-helper.js
 
 .*.swp
 *~

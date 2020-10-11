@@ -30,7 +30,7 @@ Ext.define('Traccar.view.dialog.LoginController', {
     },
 
     login: function (loginParams) {
-        var externalAuth = Traccar.app.getAttributePreference('auth.external', false)
+        var externalAuth = Traccar.app.getAttributePreference('auth.external', false);
         Ext.Ajax.request({
             scope: this,
             method: 'POST',
@@ -57,19 +57,18 @@ Ext.define('Traccar.view.dialog.LoginController', {
                             Traccar.app.showError(response.responseText);
                         }
                     }
+                } else if (success) {
+                    Traccar.app.setUser(Ext.decode(response.responseText));
+                    Ext.create('controller.root').loadApp();
                 } else {
-                    if (success) {
-                        Traccar.app.setUser(Ext.decode(response.responseText));
-                        Ext.create('controller.root').loadApp();
-                    } else {
-                        Traccar.app.showError(response.responseText);
-                    }
+                    Traccar.app.showError(response.responseText);
                 }
             }
         });
     },
 
     logout: function () {
+        var logoutEvent = document.createEvent('Event');
         Ext.util.Cookies.clear('user');
         Ext.util.Cookies.clear('password');
         Ext.Ajax.request({
@@ -79,7 +78,6 @@ Ext.define('Traccar.view.dialog.LoginController', {
             callback: function () {
                 window.location.reload();
                 if (Traccar.app.getAttributePreference('auth.external', false)) {
-                    const logoutEvent = document.createEvent('Event');
                     logoutEvent.initEvent('logout', true, true);
                     window.dispatchEvent(logoutEvent);
                 }
@@ -126,15 +124,13 @@ Ext.define('Traccar.view.dialog.LoginController', {
     },
 
     loginSelector: function (e) {
+        var form = this.lookupReference('form');
         if (Traccar.app.getAttributePreference('auth.external', false)) {
             Ext.create('controller.login').login(e.detail);
-        } else {
-            var form = this.lookupReference('form');
-            if (form.isValid()) {
-                Ext.get('spinner').setVisible(true);
-                this.getView().setVisible(false);
-                this.login(form.getValues());
-            }
+        } else if (form.isValid()) {
+            Ext.get('spinner').setVisible(true);
+            this.getView().setVisible(false);
+            this.login(form.getValues());
         }
     }
 });

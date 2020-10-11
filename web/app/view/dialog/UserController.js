@@ -41,7 +41,7 @@ Ext.define('Traccar.view.dialog.UserController', {
         }
         if (Traccar.app.getAttributePreference('auth.external', false)) {
             this.lookupReference('userProfileButton').setHidden(false);
-        } 
+        }
     },
 
     symbols: 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789',
@@ -89,7 +89,7 @@ Ext.define('Traccar.view.dialog.UserController', {
     },
 
     onUserProfileClick: function () {
-        const userProfile = document.createEvent('Event');
+        var userProfile = document.createEvent('Event');
         userProfile.initEvent('user-profile', true, true);
         window.dispatchEvent(userProfile);
     }

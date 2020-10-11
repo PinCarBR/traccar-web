@@ -194,14 +194,12 @@ Ext.define('Traccar.Application', {
     },
 
     getAttributePreference: function (key, defaultValue) {
-        if (typeof(this.getUser()) == 'undefined') {
+        if (typeof this.getUser() === 'undefined') {
             return this.getServer().get('attributes')[key] || defaultValue;
+        } else if (this.getServer().get('forceSettings')) {
+            return this.getServer().get('attributes')[key] || this.getUser().get('attributes')[key] || defaultValue;
         } else {
-            if (this.getServer().get('forceSettings')) {
-                return this.getServer().get('attributes')[key] || this.getUser().get('attributes')[key] || defaultValue;
-            } else {
-                return this.getUser().get('attributes')[key] || this.getServer().get('attributes')[key] || defaultValue;
-            }
+            return this.getUser().get('attributes')[key] || this.getServer().get('attributes')[key] || defaultValue;
         }
     },
 

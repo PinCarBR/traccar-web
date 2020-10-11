@@ -183,8 +183,7 @@ Ext.define('Traccar.view.dialog.User', {
                         handler: 'generateToken'
                     }
                 },
-                disabled: true,
-                reference: 'tokenField'
+                disabled: true
             }]
         }]
     },

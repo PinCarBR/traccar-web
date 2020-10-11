@@ -93,24 +93,22 @@ Ext.define('Traccar.controller.Root', {
     },
 
     onSessionReturn: function (options, success, response) {
+        var loginWidgetEvent = document.createEvent('Event');
         Ext.get('spinner').setVisible(false);
         if (success) {
             Traccar.app.setUser(Ext.decode(response.responseText));
             this.loadApp();
+        } else if (Traccar.app.getAttributePreference('auth.external', false)) {
+            loginWidgetEvent.initEvent('login-widget', true, true);
+            window.dispatchEvent(loginWidgetEvent);
         } else {
-            if (Traccar.app.getAttributePreference('auth.external', false)) {
-                const loginWidgetEvent = document.createEvent('Event');
-                loginWidgetEvent.initEvent('login-widget', true, true);
-                window.dispatchEvent(loginWidgetEvent);
-            } else {
-                this.login = Ext.create('widget.login', {
-                    listeners: {
-                        scope: this,
-                        login: this.onLogin
-                    }
-                });
-                this.login.show();
-            }
+            this.login = Ext.create('widget.login', {
+                listeners: {
+                    scope: this,
+                    login: this.onLogin
+                }
+            });
+            this.login.show();
         }
     },
 

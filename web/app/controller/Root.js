@@ -75,6 +75,11 @@ Ext.define('Traccar.controller.Root', {
             if (token) {
                 parameters.token = token;
             }
+            if (Traccar.app.getAttributePreference('auth.external', false)) {
+                window.addEventListener('login-request', function (e) {
+                    Ext.create('controller.login').loginSelector(e);
+                }, false);
+            }
             Ext.Ajax.request({
                 scope: this,
                 url: 'api/session',
@@ -93,13 +98,19 @@ Ext.define('Traccar.controller.Root', {
             Traccar.app.setUser(Ext.decode(response.responseText));
             this.loadApp();
         } else {
-            this.login = Ext.create('widget.login', {
-                listeners: {
-                    scope: this,
-                    login: this.onLogin
-                }
-            });
-            this.login.show();
+            if (Traccar.app.getAttributePreference('auth.external', false)) {
+                const loginWidgetEvent = document.createEvent('Event');
+                loginWidgetEvent.initEvent('login-widget', true, true);
+                window.dispatchEvent(loginWidgetEvent);
+            } else {
+                this.login = Ext.create('widget.login', {
+                    listeners: {
+                        scope: this,
+                        login: this.onLogin
+                    }
+                });
+                this.login.show();
+            }
         }
     },
 

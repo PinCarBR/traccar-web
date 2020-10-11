@@ -55,6 +55,7 @@
     "sharedExpression": "Expression",
     "sharedDevice": "Device",
     "sharedTestNotification": "Send Test Notification",
+    "sharedUserProfile": "Open user profile settings",
     "sharedCalendar": "Calendar",
     "sharedCalendars": "Calendars",
     "sharedFile": "File",

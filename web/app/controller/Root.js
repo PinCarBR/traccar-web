@@ -28,8 +28,9 @@ Ext.define('Traccar.controller.Root', {
     ],
 
     init: function () {
-        var i, data, attribute, chartTypesStore, maintenanceTypesStore;
-        chartTypesStore = Ext.getStore('ReportChartTypes');
+        // Removed chartTypesStore var. Implement hard limit for ReportChart data store
+        var i, data, attribute, maintenanceTypesStore;
+        // Removed chartTypesStore var. Implement hard limit for ReportChart data store
         maintenanceTypesStore = Ext.getStore('MaintenanceTypes');
         Ext.state.Manager.setProvider(new Ext.state.CookieProvider());
         data = Ext.getStore('PositionAttributes').getData().items;
@@ -42,10 +43,7 @@ Ext.define('Traccar.controller.Root', {
                 persist: false
             }]);
             if (attribute.get('valueType') === 'number') {
-                chartTypesStore.add({
-                    key: 'attribute.' + attribute.get('key'),
-                    name: attribute.get('name')
-                });
+                // Removed chartTypesStore var. Implement hard limit for ReportChart data store
                 maintenanceTypesStore.add(attribute);
             }
         }

@@ -32,5 +32,11 @@ Ext.define('Traccar.store.ReportTypes', {
     }, {
         key: 'summary',
         name: Strings.reportSummary
+    }, {
+        key: 'daily',
+        name: Strings.reportDaily
+    }, {
+        key: 'chart',
+        name: Strings.reportChart
     }]
 });

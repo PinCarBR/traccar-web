@@ -333,6 +333,7 @@
     "eventMaintenance": "Manutenção necessária",
     "eventTextMessage": "Mensagem de texto recebida",
     "eventDriverChanged": "Condutor alterado",
+    "eventRoadOverspeed": "Excedido o limite de velocidade da via",
     "eventsScrollToLast": "Rolar para o último",
     "alarmGeneral": "Geral",
     "alarmSos": "SOS",

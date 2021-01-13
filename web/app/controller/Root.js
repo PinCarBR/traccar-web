@@ -160,6 +160,7 @@ Ext.define('Traccar.controller.Root', {
                         name: Strings.eventAll
                     });
                     store.loadData(records, true);
+                    store.loadData(Ext.getStore('ReportEventTypesCustom').getData().items, true);
                 }
             }
         });

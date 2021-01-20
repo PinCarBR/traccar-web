@@ -23,5 +23,32 @@ Ext.define('Traccar.store.ReportEventTypesCustom', {
     data: [{
         type: 'roadOverspeed',
         name: Strings.eventRoadOverspeed
+    }, {
+        type: 'roadSuspiciousUturn',
+        name: Strings.eventRoadSuspiciousUturn
+    }, {
+        type: 'roadForbiddenDirection',
+        name: Strings.eventRoadForbiddenDirection
+    }, {
+        type: 'roadForbiddenAccess',
+        name: Strings.eventRoadForbiddenAccess
+    }, {
+        type: 'roadNoThroughTraffic',
+        name: Strings.eventRoadNoThroughTraffic
+    }, {
+        type: 'roadIllegalUturn',
+        name: Strings.eventRoadIllegalUturn
+    }, {
+        type: 'roadGateTraversal',
+        name: Strings.eventRoadGateTraversal
+    }, {
+        type: 'roadIllegalTurn',
+        name: Strings.eventRoadIllegalTurn
+    }, {
+        type: 'roadStopSignViolation',
+        name: Strings.eventRoadStopSignViolation
+    }, {
+        type: 'roadUnknownWarning',
+        name: Strings.eventRoadUnknownWarning
     }]
 });

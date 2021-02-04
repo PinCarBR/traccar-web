@@ -1,13 +1,10 @@
 import React, { useState } from 'react';
 import TextField from '@material-ui/core/TextField';
-
 import t from '../common/localization';
 import EditItemView from '../EditItemView';
 import { Accordion, AccordionSummary, AccordionDetails, makeStyles, Typography } from '@material-ui/core';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import EditAttributesView from '../attributes/EditAttributesView';
-import deviceAttributes from '../attributes/deviceAttributes';
-import SelectField from '../form/SelectField';
 
 const useStyles = makeStyles(() => ({
   details: {
@@ -15,13 +12,13 @@ const useStyles = makeStyles(() => ({
   },
 }));
 
-const GroupPage = () => {
+const DriverPage = () => {
   const classes = useStyles();
 
   const [item, setItem] = useState();
 
   return (
-    <EditItemView endpoint="groups" item={item} setItem={setItem}>
+    <EditItemView endpoint="drivers" item={item} setItem={setItem}>
       {item &&
         <>
           <Accordion defaultExpanded>
@@ -37,22 +34,12 @@ const GroupPage = () => {
                 onChange={event => setItem({...item, name: event.target.value})}
                 label={t('sharedName')}
                 variant="filled" />
-            </AccordionDetails>
-          </Accordion>
-          <Accordion>
-            <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-              <Typography variant="subtitle1">
-                {t('sharedExtra')}
-              </Typography>
-            </AccordionSummary>
-            <AccordionDetails className={classes.details}>
-              <SelectField
+              <TextField
                 margin="normal"
-                value={item.groupId || 0}
-                onChange={event => setItem({...item, groupId: Number(event.target.value)})}
-                endpoint="/api/groups"
-                label={t('groupParent')}
-                variant="filled" />
+                value={item.uniqueId || ''}
+                onChange={event => setItem({...item, uniqueId: event.target.value})}
+                label={t('deviceIdentifier')}
+                variant="filled" />                
             </AccordionDetails>
           </Accordion>
           <Accordion>
@@ -65,7 +52,7 @@ const GroupPage = () => {
               <EditAttributesView
                 attributes={item.attributes}
                 setAttributes={attributes => setItem({...item, attributes})}
-                definitions={deviceAttributes}
+                definitions={{}}
                 />
             </AccordionDetails>
           </Accordion>
@@ -75,4 +62,4 @@ const GroupPage = () => {
   );
 }
 
-export default GroupPage;
+export default DriverPage;

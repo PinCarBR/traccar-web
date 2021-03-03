@@ -99,7 +99,7 @@ Ext.define('Traccar.view.edit.DevicesController', {
     },
 
     onShareClick: function () {
-        var device, deviceId, dialog, typesStore, commandsStore;
+        var device, deviceId, dialog;
         device = this.getView().getSelectionModel().getSelection()[0];
         deviceId = device.get('id');
 

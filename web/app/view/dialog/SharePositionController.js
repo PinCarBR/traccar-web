@@ -21,12 +21,10 @@ Ext.define('Traccar.view.dialog.SharePositionController', {
     alias: 'controller.sharePosition',
 
     onTokenCallback: function (idToken) {
+        var baseUrl = 'https://us-central1-mysql-server-215313.cloudfunctions.net/pincar_follow_me';
         Ext.Ajax.request({
             scope: this,
-            // eslint-disable-next-line max-len
-            // url: 'https://us-central1-mysql-server-215313.cloudfunctions.net/pincar_follow_me?getCode=1&deviceId=' + this.getView().deviceId + '&trackingTime=' + this.lookupReference('sharePositionTimeComboBox').getValue(),
-            // url: 'https://us-central1-mysql-server-215313.cloudfunctions.net/pincar_follow_me?getCode=1&deviceId=' + 24 + '&trackingTime=' + 3600,
-            url: 'http://localhost:5000/mysql-server-215313/us-central1/pincar_follow_me?getCode=1&deviceId=' + 24 + '&trackingTime=' + 3600,
+            url: baseUrl + '?getCode=1&deviceId=' + window.deviceId + '&trackingTime=' + window.trackingTime,
             headers: {
                 'Authorization': 'Bearer ' + idToken.idToken
             },
@@ -43,8 +41,8 @@ Ext.define('Traccar.view.dialog.SharePositionController', {
     },
 
     onShareClick: function () {
-        console.log(this.lookupReference('sharePositionTimeComboBox').getValue());
-        console.log(this.getView().deviceId);
+        window.deviceId = this.getView().deviceId;
+        window.trackingTime = this.lookupReference('sharePositionTimeComboBox').getValue();
         this.closeView();
         // eslint-disable-next-line no-undef
         signinHelper.getIdToken(this.onTokenCallback);
@@ -55,7 +53,6 @@ Ext.define('Traccar.view.dialog.SharePositionController', {
     },
 
     onShareResult: function (options, success, response) {
-        console.log(response);
         if (success) {
             this.closeView();
             Traccar.app.showToast(response);

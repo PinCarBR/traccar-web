@@ -21,7 +21,6 @@ Ext.define('Traccar.view.dialog.SharePositionController', {
     alias: 'controller.sharePosition',
 
     onTokenCallback: function (idToken) {
-        console.log(idToken);
         Ext.Ajax.request({
             scope: this,
             // eslint-disable-next-line max-len
@@ -33,50 +32,27 @@ Ext.define('Traccar.view.dialog.SharePositionController', {
             },
             success: function (response) {
                 var trackingLink = JSON.parse(response.responseText).trackingUrl;
-                console.log(trackingLink);
-                Traccar.app.showToast(`Real time position available on <a target="_blank" and rel="noopener noreferrer" href="${trackingLink}"> ${trackingLink}`);
+                Traccar.app.showToast(
+                    'Real time position available on <a target="_blank" and rel="noopener noreferrer" href="' +
+                    trackingLink + '"> ' + trackingLink);
             },
-            failure: function (response) {
-                console.log(response);
+            failure: function () {
+                Traccar.app.showToast('Falha na criação do link de rastreamento');
             }
-            // callback: this.onShareResult
         });
-        console.log("Sent");
     },
 
     onShareClick: function () {
-        // var record;
-        // this.fillAttributes(button);
-        // record = button.up('window').down('form').getRecord();
-
+        console.log(this.lookupReference('sharePositionTimeComboBox').getValue());
+        console.log(this.getView().deviceId);
+        this.closeView();
         // eslint-disable-next-line no-undef
         signinHelper.getIdToken(this.onTokenCallback);
     },
 
-    // onValidityChange: function (form, valid) {
-    //     this.lookupReference('sendButton').setDisabled(!valid ||
-    //             this.lookupReference('commandsComboBox').getValue() === null);
-    // },
-
-    // onTextChannelChange: function (checkbox, newValue) {
-    //     var typesStore = this.lookupReference('commandType').getStore();
-    //     typesStore.getProxy().setExtraParam('textChannel', newValue);
-    //     typesStore.reload();
-    // },
-
-    // onTimeSelect: function () {
-    //     // var record, form, command = selected.getStore().getById(selected.getValue());
-    //     // command.set('deviceId', this.getView().deviceId);
-    //     // form = selected.up('window').down('form');
-    //     // record = form.getRecord();
-    //     // form.loadRecord(command);
-    //     // if (record && command.get('type') === record.get('type')) {
-    //     //     this.onTypeChange(this.lookupReference('commandType'), command.get('type'));
-    //     // }
-
-    //     // this.lookupReference('newCommandFields').setDisabled(command.getId() !== 0);
-    //     this.lookupReference('shareButton').setDisabled(0);
-    // },
+    onTimeSelect: function () {
+        this.lookupReference('shareButton').setDisabled(0);
+    },
 
     onShareResult: function (options, success, response) {
         console.log(response);

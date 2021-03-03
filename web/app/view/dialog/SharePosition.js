@@ -27,19 +27,18 @@ Ext.define('Traccar.view.dialog.SharePosition', {
     title: 'Share position',
 
     items: [{
-        // xtype: 'combobox',
-        xtype: 'unescapedTextField',
+        xtype: 'combobox',
         reference: 'sharePositionTimeComboBox',
         fieldLabel: 'Sharing time',
-        displayField: 'description',
-        valueField: 'id',
-        // store: 'SharePosition',
+        displayField: 'label',
+        valueField: 'value',
+        store: 'SharePositionTime',
         queryMode: 'local',
-        editable: true,
-        allowBlank: false
-        // listeners: {
-        //     select: 'onTimeSelect'
-        // }
+        editable: false,
+        allowBlank: false,
+        listeners: {
+            select: 'onTimeSelect'
+        }
     }],
 
     buttons: [{
@@ -49,7 +48,7 @@ Ext.define('Traccar.view.dialog.SharePosition', {
         tooltip: 'Share position',
         tooltipType: 'title',
         minWidth: 0,
-        disabled: false,
+        disabled: true,
         reference: 'shareButton',
         handler: 'onShareClick'
     }, {

@@ -102,26 +102,9 @@ Ext.define('Traccar.view.edit.DevicesController', {
         var device, deviceId, dialog, typesStore, commandsStore;
         device = this.getView().getSelectionModel().getSelection()[0];
         deviceId = device.get('id');
-        console.log(deviceId);
 
         dialog = Ext.create('Traccar.view.dialog.SharePosition');
         dialog.deviceId = deviceId;
-
-        // commandsStore = dialog.lookupReference('commandsComboBox').getStore();
-        // commandsStore.getProxy().setExtraParam('deviceId', deviceId);
-        // if (!Traccar.app.getPreference('limitCommands', false)) {
-        //     commandsStore.add({
-        //         id: 0,
-        //         description: Strings.sharedNew
-        //     });
-        // }
-        // commandsStore.load({
-        //     addRecords: true
-        // });
-
-        // typesStore = dialog.lookupReference('commandType').getStore();
-        // typesStore.getProxy().setExtraParam('deviceId', deviceId);
-        // typesStore.load();
 
         dialog.show();
     },

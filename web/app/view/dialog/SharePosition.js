@@ -24,12 +24,12 @@ Ext.define('Traccar.view.dialog.SharePosition', {
     ],
 
     controller: 'sharePosition',
-    title: 'Share position',
+    title: Strings.sharePosition,
 
     items: [{
         xtype: 'combobox',
         reference: 'sharePositionTimeComboBox',
-        fieldLabel: 'Sharing time',
+        fieldLabel: Strings.sharePositionTime,
         displayField: 'label',
         valueField: 'value',
         store: 'SharePositionTime',
@@ -45,7 +45,7 @@ Ext.define('Traccar.view.dialog.SharePosition', {
         xtype: 'tbfill'
     }, {
         glyph: 'xf1e0@FontAwesome',
-        tooltip: 'Share position',
+        tooltip: Strings.sharePosition,
         tooltipType: 'title',
         minWidth: 0,
         disabled: true,

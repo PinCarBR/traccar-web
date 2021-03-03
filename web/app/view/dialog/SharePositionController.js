@@ -31,11 +31,12 @@ Ext.define('Traccar.view.dialog.SharePositionController', {
             success: function (response) {
                 var trackingLink = JSON.parse(response.responseText).trackingUrl;
                 Traccar.app.showToast(
-                    'Real time position available on <a target="_blank" and rel="noopener noreferrer" href="' +
+                    Strings.sharePositionSuccess +
+                    '<a target="_blank" and rel="noopener noreferrer" href="' +
                     trackingLink + '"> ' + trackingLink);
             },
             failure: function () {
-                Traccar.app.showToast('Falha na criação do link de rastreamento');
+                Traccar.app.showToast(Strings.sharePositionFailure);
             }
         });
     },

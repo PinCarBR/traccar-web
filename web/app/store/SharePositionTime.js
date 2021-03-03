@@ -20,22 +20,22 @@ Ext.define('Traccar.store.SharePositionTime', {
     fields: ['label', 'value'],
 
     data: [{
-        label: '1 hour',
+        label: '1 ' + Strings.sharedHours,
         value: 3600
     }, {
-        label: '2 hours',
+        label: '2 ' + Strings.sharedHours,
         value: 7200
     }, {
-        label: '4 hours',
+        label: '4 ' + Strings.sharedHours,
         value: 14400
     }, {
-        label: '8 hours',
+        label: '8 ' + Strings.sharedHours,
         value: 28800
     }, {
-        label: '24 hours',
+        label: '24 ' + Strings.sharedHours,
         value: 86400
     }, {
-        label: '48 hours',
+        label: '48 ' + Strings.sharedHours,
         value: 172800
     }]
 });

@@ -71,7 +71,7 @@ Ext.define('Traccar.view.edit.Devices', {
             handler: 'onShareClick',
             reference: 'deviceShareButton',
             glyph: 'xf1e0@FontAwesome',
-            tooltip: 'Share position'
+            tooltip: Strings.sharePosition
         }, {
             xtype: 'deviceMenu',
             reference: 'toolbarDeviceMenu',

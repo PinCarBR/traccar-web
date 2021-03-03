@@ -21,7 +21,7 @@ Ext.define('Traccar.view.dialog.SharePositionController', {
     alias: 'controller.sharePosition',
 
     onTokenCallback: function (idToken) {
-        var baseUrl = 'https://us-central1-mysql-server-215313.cloudfunctions.net/pincar_follow_me';
+        var baseUrl = Traccar.app.getAttributePreference('followMe.baseUrl', null);
         Ext.Ajax.request({
             scope: this,
             url: baseUrl + '?getCode=1&deviceId=' + window.deviceId + '&trackingTime=' + window.trackingTime,

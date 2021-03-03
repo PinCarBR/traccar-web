@@ -21,6 +21,7 @@ Ext.define('Traccar.view.edit.DevicesController', {
 
     requires: [
         'Traccar.view.dialog.SendCommand',
+        'Traccar.view.dialog.SharePosition',
         'Traccar.view.dialog.Device',
         'Traccar.view.permissions.Geofences',
         'Traccar.view.permissions.ComputedAttributes',
@@ -97,6 +98,34 @@ Ext.define('Traccar.view.edit.DevicesController', {
         dialog.show();
     },
 
+    onShareClick: function () {
+        var device, deviceId, dialog, typesStore, commandsStore;
+        device = this.getView().getSelectionModel().getSelection()[0];
+        deviceId = device.get('id');
+        console.log(deviceId);
+
+        dialog = Ext.create('Traccar.view.dialog.SharePosition');
+        dialog.deviceId = deviceId;
+
+        // commandsStore = dialog.lookupReference('commandsComboBox').getStore();
+        // commandsStore.getProxy().setExtraParam('deviceId', deviceId);
+        // if (!Traccar.app.getPreference('limitCommands', false)) {
+        //     commandsStore.add({
+        //         id: 0,
+        //         description: Strings.sharedNew
+        //     });
+        // }
+        // commandsStore.load({
+        //     addRecords: true
+        // });
+
+        // typesStore = dialog.lookupReference('commandType').getStore();
+        // typesStore.getProxy().setExtraParam('deviceId', deviceId);
+        // typesStore.load();
+
+        dialog.show();
+    },
+
     updateButtons: function (selected) {
         var readonly, deviceReadonly, empty, deviceMenu;
         deviceReadonly = Traccar.app.getPreference('deviceReadonly', false) && !Traccar.app.getUser().get('administrator');
@@ -108,6 +137,7 @@ Ext.define('Traccar.view.edit.DevicesController', {
         deviceMenu.device = empty ? null : selected[0];
         deviceMenu.setDisabled(empty);
         this.lookupReference('deviceCommandButton').setDisabled(empty || readonly);
+        this.lookupReference('deviceShareButton').setDisabled(empty || readonly);
     },
 
     onSelectionChange: function (el, records) {

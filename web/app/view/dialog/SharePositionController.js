@@ -30,12 +30,14 @@ Ext.define('Traccar.view.dialog.SharePositionController', {
             },
             success: function (response) {
                 var trackingLink = JSON.parse(response.responseText).trackingUrl;
+                Ext.get('spinner-internal').setVisible(false);
                 Traccar.app.showToast(
                     Strings.sharePositionSuccess +
                     '<a target="_blank" and rel="noopener noreferrer" href="' +
                     trackingLink + '"> ' + trackingLink);
             },
             failure: function () {
+                Ext.get('spinner-internal').setVisible(false);
                 Traccar.app.showToast(Strings.sharePositionFailure);
             }
         });
@@ -44,6 +46,7 @@ Ext.define('Traccar.view.dialog.SharePositionController', {
     onShareClick: function () {
         window.deviceId = this.getView().deviceId;
         window.trackingTime = this.lookupReference('sharePositionTimeComboBox').getValue();
+        Ext.get('spinner-internal').setVisible(true);
         this.closeView();
         // eslint-disable-next-line no-undef
         signinHelper.getIdToken(this.onTokenCallback);

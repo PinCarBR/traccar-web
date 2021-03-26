@@ -66,13 +66,6 @@ Ext.define('Traccar.view.dialog.User', {
                 disabled: true,
                 reference: 'phoneField'
             }, {
-                xtype: 'clearableComboBox',
-                name: 'map',
-                fieldLabel: Strings.mapLayer,
-                store: 'MapTypes',
-                displayField: 'name',
-                valueField: 'key'
-            }, {
                 xtype: 'numberfield',
                 reference: 'latitude',
                 name: 'latitude',
@@ -102,10 +95,6 @@ Ext.define('Traccar.view.dialog.User', {
                 store: 'CoordinateFormats',
                 displayField: 'name',
                 valueField: 'key'
-            }, {
-                xtype: 'unescapedTextField',
-                name: 'poiLayer',
-                fieldLabel: Strings.mapPoiLayer
             }]
         }, {
             xtype: 'fieldset',

@@ -53,6 +53,15 @@ Ext.define('Traccar.view.map.BaseMap', {
                     })
                 });
                 break;
+            case 'mapbox':
+                layer = new ol.layer.Tile({
+                    source: new ol.source.XYZ({
+                        url: Ext.String.htmlDecode(server.get('mapUrl')),
+                        attributions: 'Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, ' +
+                            'Imagery © <a href="https://www.mapbox.com/">Mapbox</a>'
+                    })
+                });
+                break;
             case 'bingRoad':
                 layer = new ol.layer.Tile({
                     source: new ol.source.BingMaps({

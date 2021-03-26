@@ -47,6 +47,9 @@ Ext.define('Traccar.store.MapTypes', {
         key: 'wikimedia',
         name: Strings.mapWikimedia
     }, {
+        key: 'mapbox',
+        name: Strings.mapMapboxStreets
+    }, {
         key: 'custom',
         name: Strings.mapCustom
     }, {

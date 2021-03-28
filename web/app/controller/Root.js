@@ -110,8 +110,8 @@ Ext.define('Traccar.controller.Root', {
 
     onSessionReturn: function (options, success, response) {
         var loginWidgetEvent = document.createEvent('Event');
-        Ext.get('spinner').setVisible(false);
         if (success) {
+            Ext.get('spinner').setVisible(false);
             Traccar.app.setUser(Ext.decode(response.responseText));
             this.loadApp();
         } else if (Traccar.app.getAttributePreference('auth.external', false)) {

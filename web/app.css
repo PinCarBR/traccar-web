@@ -13,7 +13,7 @@
 }
 
 .toolbar-header-style {
-    background-color: #5fa2dd !important;
+    background-color: #414042 !important;
 }
 
 body.x-border-layout-ct, div.x-border-layout-ct {
@@ -22,14 +22,6 @@ body.x-border-layout-ct, div.x-border-layout-ct {
 
 .x-fieldset {
     overflow: visible !important; /* workaround for Safari issue */
-}
-
-#update {
-    position: absolute;
-    width: 100%;
-    top: 20px;
-    font-weight: bold;
-    text-align: center;
 }
 
 #attribution {
@@ -59,12 +51,12 @@ body.x-border-layout-ct, div.x-border-layout-ct {
     margin-top: -30px;
     margin-left: -30px;
     border-radius: 50%;
-    border-top: 6px solid #5fa2dd;
+    border-top: 6px solid #414042;
     border-right: 6px solid transparent;
     animation: spinner .6s linear infinite;
 }
 
-#spinner::before  {
+#spinner:before {
     content: '';
     box-sizing: border-box;
     position: absolute;
@@ -75,7 +67,7 @@ body.x-border-layout-ct, div.x-border-layout-ct {
     margin-top: -30px;
     margin-left: -30px;
     border-radius: 50%;
-    border-top: 6px solid #5fa2dd;
+    border-top: 6px solid #414042 !important;
     border-right: 6px solid transparent;
     animation: spinner .6s linear infinite;
 }

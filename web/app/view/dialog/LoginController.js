@@ -91,10 +91,11 @@ Ext.define('Traccar.view.dialog.LoginController', {
                         'event': 'logout'
                     });
                 }
-                window.location.reload();
                 if (Traccar.app.getAttributePreference('auth.external', false)) {
                     logoutEvent.initEvent('logout', true, true);
                     window.dispatchEvent(logoutEvent);
+                } else {
+                    window.location.reload();
                 }
             }
         });

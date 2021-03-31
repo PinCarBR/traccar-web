@@ -10,7 +10,8 @@
         "Strings": false,
         "Locale": false,
         "proj4": false,
-        "dataLayer": false
+        "dataLayer": false,
+        "signinHelper": false
     },
     "rules": {
         "strict": "off",

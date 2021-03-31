@@ -1,6 +1,7 @@
 /*
  * Copyright 2017 Anton Tananaev (anton@traccar.org)
  * Copyright 2017 Andrey Kunitsyn (andrey@traccar.org)
+ * Copyright 2021 Rafael Miquelino (rafaelmiquelino@gmail.com)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -26,7 +27,7 @@ Ext.define('Traccar.view.dialog.SharePositionController', {
             scope: this,
             url: baseUrl + '?getCode=1&deviceId=' + window.deviceId + '&trackingTime=' + window.trackingTime,
             headers: {
-                'Authorization': 'Bearer ' + idToken.idToken
+                'Authorization': 'Bearer ' + idToken.value
             },
             success: function (response) {
                 var trackingLink = JSON.parse(response.responseText).trackingUrl;
@@ -48,7 +49,6 @@ Ext.define('Traccar.view.dialog.SharePositionController', {
         window.trackingTime = this.lookupReference('sharePositionTimeComboBox').getValue();
         Ext.get('spinner-internal').setVisible(true);
         this.closeView();
-        // eslint-disable-next-line no-undef
         signinHelper.getIdToken(this.onTokenCallback);
     },
 

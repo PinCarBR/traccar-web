@@ -77,7 +77,6 @@ Ext.define('Traccar.view.dialog.LoginController', {
     },
 
     logout: function () {
-        var logoutEvent = document.createEvent('Event');
         Ext.util.Cookies.clear('user');
         Ext.util.Cookies.clear('password');
         Ext.util.Cookies.clear('userId');
@@ -92,8 +91,7 @@ Ext.define('Traccar.view.dialog.LoginController', {
                     });
                 }
                 if (Traccar.app.getAttributePreference('auth.external', false)) {
-                    logoutEvent.initEvent('logout', true, true);
-                    window.dispatchEvent(logoutEvent);
+                    signinHelper.signOut();
                 } else {
                     window.location.reload();
                 }
@@ -126,24 +124,26 @@ Ext.define('Traccar.view.dialog.LoginController', {
 
     onSpecialKey: function (field, e) {
         if (e.getKey() === e.ENTER) {
-            this.loginSelector();
+            this.internalLogin();
         }
     },
 
     onLoginClick: function () {
         Ext.getElementById('submitButton').click();
-        this.loginSelector();
+        this.internalLogin();
     },
 
     onRegisterClick: function () {
         Ext.create('Traccar.view.dialog.Register').show();
     },
 
-    loginSelector: function (e) {
+    externalLogin: function (idToken) {
+        Ext.create('controller.login').login({token: idToken.value});
+    },
+
+    internalLogin: function () {
         var form = this.lookupReference('form');
-        if (Traccar.app.getAttributePreference('auth.external', false)) {
-            Ext.create('controller.login').login(e.detail);
-        } else if (form.isValid()) {
+        if (form.isValid()) {
             Ext.get('spinner').setVisible(true);
             this.getView().setVisible(false);
             this.login(form.getValues());

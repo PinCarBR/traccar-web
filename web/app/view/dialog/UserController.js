@@ -89,8 +89,6 @@ Ext.define('Traccar.view.dialog.UserController', {
     },
 
     onUserProfileClick: function () {
-        var userProfile = document.createEvent('Event');
-        userProfile.initEvent('user-profile', true, true);
-        window.dispatchEvent(userProfile);
+        signinHelper.userProfile();
     }
 });

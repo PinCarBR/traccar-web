@@ -91,11 +91,6 @@ Ext.define('Traccar.controller.Root', {
             if (token) {
                 parameters.token = token;
             }
-            if (Traccar.app.getAttributePreference('auth.external', false)) {
-                window.addEventListener('login-request', function (e) {
-                    Ext.create('controller.login').loginSelector(e);
-                }, false);
-            }
             Ext.Ajax.request({
                 scope: this,
                 url: 'api/session',
@@ -109,14 +104,12 @@ Ext.define('Traccar.controller.Root', {
     },
 
     onSessionReturn: function (options, success, response) {
-        var loginWidgetEvent = document.createEvent('Event');
         if (success) {
             Ext.get('spinner').setVisible(false);
             Traccar.app.setUser(Ext.decode(response.responseText));
             this.loadApp();
         } else if (Traccar.app.getAttributePreference('auth.external', false)) {
-            loginWidgetEvent.initEvent('login-widget', true, true);
-            window.dispatchEvent(loginWidgetEvent);
+            signinHelper.getIdToken(Ext.create('controller.login').externalLogin);
         } else {
             this.login = Ext.create('widget.login', {
                 listeners: {

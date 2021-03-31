@@ -163,7 +163,7 @@
     extjsVersion = '6.2.0';
     olVersion = '6.1.1';
     proj4jsVersion = '2.6.0';
-    signinHelperVersion = 'ae83a4c';
+    signinHelperVersion = 'fb29fdd';
 
     if (debugMode) {
         addScriptFile('https://storage.googleapis.com/pincar-cdn/traccar/js/extjs/' + extjsVersion + '/ext-all-debug.js');

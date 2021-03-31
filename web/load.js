@@ -116,7 +116,7 @@
         }
     }
 
-    window.addEventListener('load', function (event) {
+    function loadTraccarApp() {
 
         if (debugMode) {
             Ext.Loader.setConfig({
@@ -146,6 +146,11 @@
                 }
             }
         });
+    }
+
+    window.addEventListener('load', function (event) {
+
+        signinHelper.getIdToken(loadTraccarApp);
 
     });
 
@@ -158,6 +163,7 @@
     extjsVersion = '6.2.0';
     olVersion = '6.1.1';
     proj4jsVersion = '2.6.0';
+    signinHelperVersion = 'ae83a4c';
 
     if (debugMode) {
         addScriptFile('https://storage.googleapis.com/pincar-cdn/traccar/js/extjs/' + extjsVersion + '/ext-all-debug.js');
@@ -181,6 +187,8 @@
     } else {
         addScriptFile('https://storage.googleapis.com/pincar-cdn/traccar/js/proj4js/' + proj4jsVersion + '/proj4.js');
     }
+
+    addScriptFile('https://storage.googleapis.com/pincar-cdn/static/signin-helper-' + signinHelperVersion + '.js');
 
     window.Images = ['arrow', 'default', 'animal', 'bicycle', 'boat', 'bus', 'car', 'crane', 'helicopter', 'motorcycle',
         'offroad', 'person', 'pickup', 'plane', 'ship', 'tractor', 'train', 'tram', 'trolleybus', 'truck', 'van', 'scooter'];

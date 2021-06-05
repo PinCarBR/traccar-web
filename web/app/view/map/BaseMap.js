@@ -195,7 +195,8 @@ Ext.define('Traccar.view.map.BaseMap', {
                 break;
         }
 
-        this.map.addControl(new ol.control.LayerSwitcher());
+        // eslint-disable-next-line capitalized-comments
+        // this.map.addControl(new ol.control.LayerSwitcher());
 
         target = this.map.getTarget();
         if (typeof target === 'string') {

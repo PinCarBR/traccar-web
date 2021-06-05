@@ -1,4 +1,5 @@
 import React from 'react';
+import { ThemeProvider } from '@material-ui/core/styles';
 import { Switch, Route } from 'react-router-dom'
 import CssBaseline from '@material-ui/core/CssBaseline';
 import MainPage from './MainPage';
@@ -26,14 +27,21 @@ import DriversPage from './settings/DriversPage';
 import DriverPage from './settings/DriverPage';
 import ComputedAttributesPage from './settings/ComputedAttributesPage';
 import ComputedAttributePage from './settings/ComputedAttributePage';
+import MaintenancesPage from './settings/MaintenancesPage';
+import MaintenancePage from './settings/MaintenancePage';
+import StatisticsPage from './admin/StatisticsPage';
+import CachingController from './CachingController';
+
+import theme from './theme';
 
 const App = () => {
   const initialized = useSelector(state => !!state.session.server && !!state.session.user);
 
   return (
-    <>
+    <ThemeProvider theme={theme}>
       <CssBaseline />
       <SocketController />
+      <CachingController />
       <Switch>
         <Route exact path='/login' component={LoginPage} />
         <Route>
@@ -51,9 +59,12 @@ const App = () => {
               <Route exact path='/settings/drivers' component={DriversPage} />
               <Route exact path='/settings/driver/:id?' component={DriverPage} />
               <Route exact path='/settings/attributes' component={ComputedAttributesPage} />
-              <Route exact path='/settings/attribute/:id?' component={ComputedAttributePage} />                            
+              <Route exact path='/settings/attribute/:id?' component={ComputedAttributePage} />
+              <Route exact path='/settings/maintenances' component={MaintenancesPage} />
+              <Route exact path='/settings/maintenance/:id?' component={MaintenancePage} />                                          
               <Route exact path='/admin/server' component={ServerPage} />
               <Route exact path='/admin/users' component={UsersPage} />
+              <Route exact path='/admin/statistics' component={StatisticsPage} />
               <Route exact path='/reports/route' component={RouteReportPage} />              
               <Route exact path='/reports/event' component={EventReportPage} />
               <Route exact path='/reports/trip' component={TripReportPage} />
@@ -64,7 +75,7 @@ const App = () => {
           )}
         </Route>
       </Switch>
-    </>
+    </ThemeProvider>
   );
 }
 

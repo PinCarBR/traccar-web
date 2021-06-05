@@ -65,6 +65,7 @@
         'lt': { name: 'Lietuvių', code: 'lt' },
         'lv': { name: 'Latviešu', code: 'lv' },
         'ml': { name: 'മലയാളം', code: 'en' },
+        'mn': { name: 'Монгол хэл', code: 'en' },
         'ms': { name: 'بهاس ملايو', code: 'en' },
         'nb': { name: 'Norsk bokmål', code: 'no_NB' },
         'ne': { name: 'नेपाली', code: 'en' },
@@ -162,6 +163,7 @@
 
     extjsVersion = '6.2.0';
     olVersion = '6.1.1';
+    olLayerSwitcherVersion = '3.8.3';
     proj4jsVersion = '2.6.0';
     signinHelperVersion = 'fb29fdd';
 
@@ -181,6 +183,9 @@
 
     addStyleFile('https://storage.googleapis.com/pincar-cdn/traccar/js/ol/' + olVersion + '/ol.css');
     addScriptFile('https://storage.googleapis.com/pincar-cdn/traccar/js/ol/' + olVersion + '/ol.js');
+
+    addStyleFile('https://cdn.traccar.com/js/ol-layerswitcher/' + olLayerSwitcherVersion + '/ol-layerswitcher.css');
+    addScriptFile('https://cdn.traccar.com/js/ol-layerswitcher/' + olLayerSwitcherVersion + '/ol-layerswitcher.js');
 
     if (debugMode) {
         addScriptFile('https://storage.googleapis.com/pincar-cdn/traccar/js/proj4js/' + proj4jsVersion + '/proj4-src.js');

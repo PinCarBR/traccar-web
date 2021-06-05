@@ -30,6 +30,7 @@ import FormatListBulletedIcon from '@material-ui/icons/FormatListBulleted';
 import TrendingUpIcon from '@material-ui/icons/TrendingUp';
 import FolderIcon from '@material-ui/icons/Folder';
 import ReplayIcon from '@material-ui/icons/Replay';
+import BuildIcon from '@material-ui/icons/Build';
 import t from './common/localization';
 
 const useStyles = makeStyles(theme => ({
@@ -185,6 +186,12 @@ const MainToolbar = () => {
               </ListItemIcon>
               <ListItemText primary={t('sharedComputedAttributes')} />
             </ListItem>
+            <ListItem button onClick={() => history.push('/settings/maintenances')}>
+              <ListItemIcon>
+                <BuildIcon />
+              </ListItemIcon>
+              <ListItemText primary={t('sharedMaintenance')} />
+            </ListItem>
           </List>
           {adminEnabled && (
             <>
@@ -207,7 +214,7 @@ const MainToolbar = () => {
                   </ListItemIcon>
                   <ListItemText primary={t('settingsUsers')} />
                 </ListItem>
-                <ListItem button disabled>
+                <ListItem button onClick={() => history.push('/admin/statistics')}>
                   <ListItemIcon>
                     <BarChartIcon />
                   </ListItemIcon>

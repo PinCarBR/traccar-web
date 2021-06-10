@@ -41,110 +41,24 @@ Ext.define('Traccar.view.map.BaseMap', {
             title: Strings.mapLayer,
             layers: [
                 new ol.layer.Tile({
-                    title: Strings.mapCustom,
-                    type: 'base',
-                    visible: type === 'custom',
-                    source: new ol.source.XYZ({
-                        url: Ext.String.htmlDecode(server.get('mapUrl')),
-                        attributions: ''
-                    })
-                }),
-                new ol.layer.Tile({
-                    title: Strings.mapCustomArcgis,
-                    type: 'base',
-                    visible: type === 'customArcgis',
-                    source: new ol.source.TileArcGISRest({
-                        url: Ext.String.htmlDecode(server.get('mapUrl'))
-                    })
-                }),
-                new ol.layer.Tile({
                     title: Strings.mapMapboxStreets,
                     type: 'base',
-                    visible: type === 'mapbox',
+                    visible: type === 'mapboxStreets',
                     source: new ol.source.XYZ({
-                        url: Ext.String.htmlDecode(server.get('mapUrl')),
+                        url: 'https://api.mapbox.com/styles/v1/mapbox/streets-v11/tiles/{z}/{x}/{y}?access_token=' + bingKey,
                         attributions: 'Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, ' +
                             'Imagery © <a href="https://www.mapbox.com/">Mapbox</a>'
                     })
                 }),
                 new ol.layer.Tile({
-                    title: Strings.mapBingRoad,
+                    title: Strings.mapMapboxSatellite,
                     type: 'base',
-                    visible: type === 'bingRoad',
-                    source: new ol.source.BingMaps({
-                        key: bingKey,
-                        imagerySet: 'Road'
-                    })
-                }),
-                new ol.layer.Tile({
-                    title: Strings.mapBingAerial,
-                    type: 'base',
-                    visible: type === 'bingAerial',
-                    source: new ol.source.BingMaps({
-                        key: bingKey,
-                        imagerySet: 'Aerial'
-                    })
-                }),
-                new ol.layer.Tile({
-                    title: Strings.mapBingHybrid,
-                    type: 'base',
-                    visible: type === 'bingHybrid',
-                    source: new ol.source.BingMaps({
-                        key: bingKey,
-                        imagerySet: 'AerialWithLabels'
-                    })
-                }),
-                new ol.layer.Tile({
-                    title: Strings.mapCarto,
-                    type: 'base',
-                    visible: type === 'carto',
+                    visible: type === 'mapboxSatellite',
                     source: new ol.source.XYZ({
-                        url: 'https://cartodb-basemaps-{a-d}.global.ssl.fastly.net/light_all/{z}/{x}/{y}.png',
-                        attributions: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> ' +
-                            'contributors, &copy; <a href="https://carto.com/attributions">CARTO</a>'
+                        url: 'https://api.mapbox.com/styles/v1/mapbox/satellite-streets-v11/tiles/{z}/{x}/{y}?access_token=' + bingKey,
+                        attributions: 'Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, ' +
+                            'Imagery © <a href="https://www.mapbox.com/">Mapbox</a>'
                     })
-                }),
-                new ol.layer.Tile({
-                    title: Strings.mapAutoNavi,
-                    type: 'base',
-                    visible: type === 'autoNavi' || type === 'baidu',
-                    source: new ol.source.OSM({
-                        url: 'https://webrd0{1-4}.is.autonavi.com/appmaptile?lang=zh_cn&size=1&scale=1&style=8&x={x}&y={y}&z={z}'
-                    })
-                }),
-                new ol.layer.Tile({
-                    title: Strings.mapYandexMap,
-                    type: 'base',
-                    visible: type === 'yandexMap',
-                    source: new ol.source.XYZ({
-                        url: 'https://vec0{1-4}.maps.yandex.net/tiles?l=map&x={x}&y={y}&z={z}',
-                        projection: 'EPSG:3395',
-                        attributions: '&copy; <a href="https://yandex.com/maps/">Yandex</a>'
-                    })
-                }),
-                new ol.layer.Tile({
-                    title: Strings.mapYandexSat,
-                    type: 'base',
-                    visible: type === 'yandexSat',
-                    source: new ol.source.XYZ({
-                        url: 'https://sat0{1-4}.maps.yandex.net/tiles?l=sat&x={x}&y={y}&z={z}',
-                        projection: 'EPSG:3395',
-                        attributions: '&copy; <a href="https://yandex.com/maps/">Yandex</a>'
-                    })
-                }),
-                new ol.layer.Tile({
-                    title: Strings.mapWikimedia,
-                    type: 'base',
-                    visible: type === 'wikimedia',
-                    source: new ol.source.OSM({
-                        url: 'https://maps.wikimedia.org/osm-intl/{z}/{x}/{y}.png'
-                    })
-                }),
-                new ol.layer.Tile({
-                    title: Strings.mapOsm,
-                    type: 'base',
-                    visible: type === 'osm' || !type,
-                    source: new ol.source.OSM({})
                 })
             ]
         });
@@ -195,8 +109,7 @@ Ext.define('Traccar.view.map.BaseMap', {
                 break;
         }
 
-        // eslint-disable-next-line capitalized-comments
-        // this.map.addControl(new ol.control.LayerSwitcher());
+        this.map.addControl(new ol.control.LayerSwitcher());
 
         target = this.map.getTarget();
         if (typeof target === 'string') {

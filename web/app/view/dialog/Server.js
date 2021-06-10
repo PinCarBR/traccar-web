@@ -42,12 +42,7 @@ Ext.define('Traccar.view.dialog.Server', {
             }, {
                 xtype: 'unescapedTextField',
                 name: 'bingKey',
-                fieldLabel: Strings.mapBingKey
-            }, {
-                xtype: 'unescapedTextField',
-                reference: 'mapUrlField',
-                name: 'mapUrl',
-                fieldLabel: Strings.mapCustomLabel
+                fieldLabel: Strings.mapMapboxKey
             }, {
                 xtype: 'numberfield',
                 reference: 'latitude',
